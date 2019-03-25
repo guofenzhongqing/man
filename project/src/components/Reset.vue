@@ -1,13 +1,17 @@
 <template>
   <section>
-    <div style="margin-top: 0.2rem"><input type="text" placeholder="账号"></div>
+    <div class="head navbar-fixed-top">
+      <span class="glyphicon glyphicon-chevron-left" style="margin-left: 0.05rem" @click="toLogin"></span>
+      <span style="margin-left: 1.2rem">重置密码</span>
+    </div>
+    <div style="margin-top: 0.52rem"><input type="text" placeholder="账号"></div>
     <div style="border: 0.01rem solid lightgrey"><input type="text" placeholder="旧密码"></div>
     <div><input type="text" placeholder="请输入新密码"></div>
     <div style="border: 0.01rem solid lightgrey"><input type="text" placeholder="请确认密码"></div>
     <div>
       <input type="text" placeholder="验证码">
       <img :src="changePic" alt="" class="img1">
-      <div class="changeP" @click="changeP()">
+      <div class="changeP" @click="changeP">
         <p class="p1">看不清</p>
         <p class="p2" style="color: #90C3F3">换一张</p>
       </div>
@@ -41,6 +45,9 @@
         }).catch((error) => {
           console.log(error);
         })
+      },
+      toLogin() {
+        this.$router.push({path: '/login'})
       }
     }
   }
@@ -54,11 +61,23 @@
   section>div {
     width: 100%;
   }
+  .head{
+    width: 104%;
+    height: 0.5rem;
+    line-height: 0.5rem;
+    background-color: #008de1;
+    color: white;
+  }
+  .head > span {
+    font-size: 0.2rem;
+  }
   section>div>input {
     width: 100%;
     height: 0.6rem;
     padding-left: 0.2rem;
     font-size: 0.25rem;
+    outline:none;
+    border:none
   }
   .changeP {
     position: absolute;
@@ -71,7 +90,7 @@
   .img1 {
     width: 1rem;
     position: absolute;
-    top: 2.5rem;
+    top: 2.55rem;
     right: 0.6rem;
   }
   .butt {

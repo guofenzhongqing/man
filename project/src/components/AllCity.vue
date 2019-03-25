@@ -1,5 +1,9 @@
 <template>
   <section>
+    <div class="head navbar-fixed-top">
+      <span class="left" @click="bounc">ele.me</span>
+      <span class="right" @click="login">登录 | 注册</span>
+    </div>
     <nav class="nav2">
       <span class="span">当前定位城市:</span>
       <span class="pull-right span1">定位不准时, 请在城市列表中选择</span>
@@ -58,6 +62,12 @@
     methods: {
       getMsg() {
         console.log(this.letter);
+      },
+      login() {
+        this.$router.push({path: '/login'})
+      },
+      bounc() {
+        this.$router.push({path: '/allCity'})
       }
     }
   }
@@ -67,19 +77,28 @@
   section {
     width: 100%;
   }
-  .nav1 {
-    background-color: #3190E8;
-    padding: 0.1rem 0.15rem;
-  }
-  .nav1>a {
-    font-size: 0.18rem;
+  .head{
+    width: 104%;
+    height: 0.5rem;
+    line-height: 0.5rem;
+    background-color: #008de1;
     color: white;
+    overflow: hidden;
+  }
+  .left{
+    margin-left: 0.1rem;
+    font-size: 0.18rem;
+  }
+  .right{
+    float: right;
+    margin-right: 0.3rem;
+    font-size: 0.16rem;
   }
   .nav2 {
     width: 104%;
-    margin-top: 0.06rem;
     padding: 0.15rem 0.1rem 0.1rem;
     border-bottom: 0.01rem solid lightgrey;
+    margin-top: 0.5rem;
   }
   .span{
     font-size: 0.15rem;

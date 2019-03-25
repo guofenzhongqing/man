@@ -1,9 +1,13 @@
 <template>
     <section>
+      <div class="head navbar-fixed-top">
+        <span class="glyphicon glyphicon-chevron-left" style="margin-left: 0.05rem" @click="toAllCity"></span>
+        <span style="margin-left: 1.2rem">密码登录</span>
+      </div>
         <input type="text" placeholder="账号" class="inp1">
-      <div style="border: 0.01rem solid #F4F4F4">
+      <div style="border: 0.01rem solid lightgrey">
         <input :type="abc ? 'text' : 'password'" placeholder="密码" ref="nu">
-          <p class="p1" @click="hideP()" :class="{trans: abc}"></p>
+          <p class="p1" @click="hideP" :class="{trans: abc}"></p>
           <p class="p2" :class="{bgc: abc}">abc...</p>
       </div>
       <div>
@@ -43,7 +47,10 @@
           }).catch((error) => {
             console.log(error);
           })
-        }
+        },
+          toAllCity() {
+          this.$router.push({path:'/allCity'})
+          }
       },
       mounted() {
           Vue.axios.post('https://elm.cangdu.org/v1/captchas').then((res) => {
@@ -60,14 +67,26 @@ section {
   width: 100%;
   position: relative;
 }
+.head{
+  width: 104%;
+  height: 0.5rem;
+  line-height: 0.5rem;
+  background-color: #008de1;
+  color: white;
+}
+.head > span {
+  font-size: 0.2rem;
+}
   input {
     width: 100%;
     height: 0.6rem;
     font-size: 0.2rem;
     padding-left: 0.2rem;
+    outline:none;
+    border:none
   }
 .inp1 {
-  margin-top: 0.2rem;
+  margin-top: 0.5rem;
 }
   .p1 {
     width: 0.3rem;
@@ -76,7 +95,7 @@ section {
     border-radius: 50%;
     background-color: #F1F1F1;
     position: absolute;
-    top: 0.95rem;
+    top: 1.25rem;
     right: 0.4rem;
     z-index: 2;
     transition: all 1s;
@@ -89,7 +108,7 @@ section {
   border-radius: 20% / 50%;
   text-align: center;
   position: absolute;
-  top: 1rem;
+  top: 1.3rem;
   right: 0.1rem;
   transition: all 1s;
 }
@@ -103,7 +122,7 @@ section {
   }
   .face {
     position: absolute;
-    top: 1.45rem;
+    top: 1.8rem;
     right: 0.1rem;
   }
   .face>p {
@@ -112,7 +131,7 @@ section {
   .img1 {
     width: 1rem;
     position: absolute;
-    top: 1.55rem;
+    top: 1.85rem;
     right: 0.6rem;
   }
   .div1 {
