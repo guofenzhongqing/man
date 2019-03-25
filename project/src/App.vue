@@ -3,8 +3,6 @@
       <!--<MyHeader></MyHeader>-->
       <!--<AllCity></AllCity>-->
       <Head></Head>
-      <MyInfo></MyInfo>
-      <MyWallet></MyWallet>
       <router-view></router-view>
   </div>
 </template>
@@ -13,16 +11,12 @@
   import AllCity from "./components/AllCity";
   import MyHeader from "./components/MyHeader";
   import Head from "./components/mine/Head";
-  import MyInfo from "./components/mine/MyInfo";
-  import MyWallet from "./components/mine/MyWallet";
 export default {
   name: 'App',
   components: {
     AllCity,
     MyHeader,
-    Head,
-    MyInfo,
-    MyWallet
+    Head
   }
 }
 </script>
