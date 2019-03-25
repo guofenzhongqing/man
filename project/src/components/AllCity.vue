@@ -67,9 +67,17 @@
   section {
     width: 100%;
   }
+  .nav1 {
+    background-color: #3190E8;
+    padding: 0.1rem 0.15rem;
+  }
+  .nav1>a {
+    font-size: 0.18rem;
+    color: white;
+  }
   .nav2 {
     width: 104%;
-    margin-top: 0.45rem;
+    margin-top: 0.06rem;
     padding: 0.15rem 0.1rem 0.1rem;
     border-bottom: 0.01rem solid lightgrey;
   }
@@ -101,6 +109,7 @@
   }
   .hotcity>li {
     font-size: 0.2rem;
+    font-size: 0.15rem;
   }
   .pl{
     text-align: center;
@@ -108,7 +117,7 @@
     padding: 0.05rem;
   }
   .pl>a {
-    font-size: 0.2rem;
+    font-size: 0.15rem;
   }
   .city1 {
     border: 0.01rem solid lightgrey;
@@ -126,4 +135,5 @@
   .ul2 li{
     font-size: 0.2rem;
   }
+
 </style>
