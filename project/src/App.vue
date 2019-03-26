@@ -38,16 +38,18 @@ export default {
 
 <style>
 @import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
-  *{
+  * {
     list-style-type: none;
     margin: 0;
     padding: 0;
+    outline: none;
+    border: none;
   }
-  body,html{
+  html, body {
     width: 100%;
     height: 100%;
   }
-  #app{
+  #app {
     width: 100%;
     height: 100%;
   }
