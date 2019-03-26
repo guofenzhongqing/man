@@ -1,11 +1,11 @@
 @font-face {
   font-family: 'iconfont';  /* project id 1106933 */
-  src: url('//at.alicdn.com/t/font_1106933_lmcg3qxspmr.eot');
-  src: url('//at.alicdn.com/t/font_1106933_lmcg3qxspmr.eot?#iefix') format('embedded-opentype'),
-  url('//at.alicdn.com/t/font_1106933_lmcg3qxspmr.woff2') format('woff2'),
-  url('//at.alicdn.com/t/font_1106933_lmcg3qxspmr.woff') format('woff'),
-  url('//at.alicdn.com/t/font_1106933_lmcg3qxspmr.ttf') format('truetype'),
-  url('//at.alicdn.com/t/font_1106933_lmcg3qxspmr.svg#iconfont') format('svg');
+  src: url('//at.alicdn.com/t/font_1106933_dh0lsa1965.eot');
+  src: url('//at.alicdn.com/t/font_1106933_dh0lsa1965.eot?#iefix') format('embedded-opentype'),
+  url('//at.alicdn.com/t/font_1106933_dh0lsa1965.woff2') format('woff2'),
+  url('//at.alicdn.com/t/font_1106933_dh0lsa1965.woff') format('woff'),
+  url('//at.alicdn.com/t/font_1106933_dh0lsa1965.ttf') format('truetype'),
+  url('//at.alicdn.com/t/font_1106933_dh0lsa1965.svg#iconfont') format('svg');
 }
 .jiantouL{
   font-family:"iconfont" !important;
@@ -63,3 +63,39 @@
   -webkit-text-stroke-width: 0.2px;
   -moz-osx-font-smoothing: grayscale;
 }
+.jifen{
+  font-family:"iconfont" !important;
+  font-size:16px;font-style:normal;
+  -webkit-font-smoothing: antialiased;
+  -webkit-text-stroke-width: 0.2px;
+  -moz-osx-font-smoothing: grayscale;
+}
+.vip{
+  font-family:"iconfont" !important;
+  font-size:16px;font-style:normal;
+  -webkit-font-smoothing: antialiased;
+  -webkit-text-stroke-width: 0.2px;
+  -moz-osx-font-smoothing: grayscale;
+}
+.fuwu{
+  font-family:"iconfont" !important;
+  font-size:16px;font-style:normal;
+  -webkit-font-smoothing: antialiased;
+  -webkit-text-stroke-width: 0.2px;
+  -moz-osx-font-smoothing: grayscale;
+}
+.kefu1{
+  font-family:"iconfont" !important;
+  font-size:16px;font-style:normal;
+  -webkit-font-smoothing: antialiased;
+  -webkit-text-stroke-width: 0.2px;
+  -moz-osx-font-smoothing: grayscale;
+}
+.kefu2{
+  font-family:"iconfont" !important;
+  font-size:16px;font-style:normal;
+  -webkit-font-smoothing: antialiased;
+  -webkit-text-stroke-width: 0.2px;
+  -moz-osx-font-smoothing: grayscale;
+}
+
