@@ -3,36 +3,32 @@
     <div class="footR">
       <!--首页-->
       <div >
-        <router-link :to="{path: '/all/takeout'}" class="elm da " >
-          <span>&#xe722;</span>
+        <router-link :to="{path: '/all/takeout'}" class="da h" >
+          <i class="elm">&#xe722;</i>
         </router-link>
-        <br/>
-        <span class="fa ">首页</span>
+        <p class="fa top">首页</p>
       </div>
       <!--搜索-->
       <div >
         <router-link :to="{}" class="znz da">
-          <span>&#xe627;</span>
+          <i class="znz">&#xe627;</i>
         </router-link>
-        <br/>
-        <span class="fa">搜索</span>
+        <p class="fa">搜索</p>
       </div>
       <!--订单-->
       <div >
         <router-link :to="{path: '/all/myOrder'}" class="da dingdan">
-          <span>&#xe65d;</span>
+          <i class="dingdan">&#xe65d;</i>
         </router-link>
         <!--class="dingdan da"-->
-        <br/>
-        <span class="fa">订单</span>
+        <p class="fa">订单</p>
       </div>
       <!--我的-->
       <div>
         <router-link :to="{path: '/all/head'}" class="mine da">
-          <span>&#xe663;</span>
+          <i class="mine">&#xe663;</i>
         </router-link>
-        <br/>
-        <span class="fa">我的</span>
+        <p class="fa">我的</p>
       </div>
     </div>
   </section>
@@ -49,9 +45,9 @@
 <style scoped>
   @import"../assets/css/Iconfont.css";
    .footR{
-     height: 0.8rem;
+     height: 0.5rem;
      width: 100%;
-     background-color: #ddd;
+     background-color: white;
      position: fixed;
      bottom: 0;
      display: flex;
@@ -66,15 +62,11 @@
     font-size: 0.3rem;
     color: grey;
   }
+  .h{
+    margin-top: -0.1rem;
+  }
   /*修改主页的图标大小*/
-  .elm{
-    font-size:0.5rem;
-    margin-top: -0.11rem;
-  }
-  /*up扶这个元素上去*/
-  .up{
-    margin-top: 5rem;
-  }
+
   /*去除a标签的下划线*/
   a{
     text-decoration: none;
@@ -84,7 +76,27 @@
     color: red;
   }
   .fa{
-    line-height: 0.15rem;
-    font-size:0.15rem ;
+    line-height: 0.14rem;
+    font-size:0.14rem ;
+  }
+  .elm{
+     font-size:0.4rem;
+   }
+  .znz{
+    font-size:0.25rem;
+  }
+  .dingdan{
+    font-size:0.25rem;
+  }
+  .mine{
+    font-size:0.25rem;
+  }
+  p{
+    margin-top: -0.15rem;
+  }
+  .top{
+    position: absolute;
+    left: 0.34rem;
+    top: 0.5rem;
   }
 </style>
