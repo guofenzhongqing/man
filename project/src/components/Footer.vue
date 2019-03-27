@@ -73,7 +73,7 @@
   }
 /*当点击时，变换被击中者的样式*/
   .router-link-active{
-    color: red;
+    color: #008de1;
   }
   .fa{
     line-height: 0.14rem;
