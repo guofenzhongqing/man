@@ -2,7 +2,7 @@
     <section>
       <div class="head">
         <!--左边箭头-->
-        <i class="jiantouL">&#xe6bc;</i>
+        <i class="jiantouL" @click="getBack">&#xe6bc;</i>
         <span>下载</span>
       </div>
       <img src="../../assets/img/2.jpg">
@@ -13,7 +13,12 @@
 
 <script>
     export default {
-        name: "DownLoad"
+        name: "DownLoad",
+        methods: {
+          getBack() {
+            this.$router.go(-1);
+          }
+        }
     }
 </script>
 

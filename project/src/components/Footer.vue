@@ -3,7 +3,7 @@
     <div class="footR">
       <!--首页-->
       <div >
-        <router-link :to="{}" class="elm da " >
+        <router-link :to="{path: '/all/takeout'}" class="elm da " >
           <span>&#xe722;</span>
         </router-link>
         <br/>
@@ -19,7 +19,7 @@
       </div>
       <!--订单-->
       <div >
-        <router-link :to="{}" class="da dingdan">
+        <router-link :to="{path: '/all/myOrder'}" class="da dingdan">
           <span>&#xe65d;</span>
         </router-link>
         <!--class="dingdan da"-->
@@ -28,7 +28,7 @@
       </div>
       <!--我的-->
       <div>
-        <router-link :to="{}" class="mine da">
+        <router-link :to="{path: '/all/head'}" class="mine da">
           <span>&#xe663;</span>
         </router-link>
         <br/>
@@ -49,7 +49,7 @@
 <style scoped>
   @import"../assets/css/Iconfont.css";
    .footR{
-     height: 1.2rem;
+     height: 0.8rem;
      width: 100%;
      background-color: #ddd;
      position: fixed;

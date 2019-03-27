@@ -2,7 +2,7 @@
   <section>
     <div class="head">
       <!--左边箭头-->
-      <i class="jiantouL">&#xe6bc;</i>
+      <i class="jiantouL" @click="getBack">&#xe6bc;</i>
       <span>超级会员特权说明</span>
     </div>
     <p>{{hot1}}</p>
@@ -25,6 +25,11 @@
           }).catch((error) => {
             console.log(error)
           })
+      },
+      methods: {
+        getBack() {
+          this.$router.go(-1);
+        }
       }
     }
 </script>

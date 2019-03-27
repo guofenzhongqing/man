@@ -2,7 +2,7 @@
     <section>
       <div class="head">
         <!--左边箭头-->
-        <i class="jiantouL">&#xe6bc;</i>
+        <i class="jiantouL" @click="getBack">&#xe6bc;</i>
         <span>我的</span>
       </div>
 
@@ -43,19 +43,19 @@
       <div class="text">
         <div class="PortOne">
           <!--我的订单-->
-          <div class="MyOrder">
+          <div class="MyOrder" @click="mine">
             <i class="dingdan">&#xe65d;</i>
             <span>我的订单</span>
             <i class="jiantouR enterT">&#xe74c;</i>
           </div>
           <!--积分商城-->
-          <div class="IntegralMall">
+          <div class="IntegralMall" @click="integral">
             <i class="jifen">&#xe607;</i>
             <span>积分商城</span>
             <i class="jiantouR enterT">&#xe74c;</i>
           </div>
           <!--饿了么会员卡-->
-          <div class="VipCard">
+          <div class="VipCard" @click="vipCard">
             <i class="vip">&#xe604;</i>
             <span>饿了么会员卡</span>
             <i class="jiantouR enterT">&#xe74c;</i>
@@ -63,13 +63,13 @@
         </div>
         <div class="PortTwo">
           <!--服务中心-->
-          <div class="serve">
+          <div class="serve" @click="serve">
             <i class="fuwu">&#xe62d;</i>
             <span>服务中心</span>
             <i class="jiantouR enterT">&#xe74c;</i>
           </div>
           <!--下载饿了么APP-->
-          <div class="download">
+          <div class="download" @click="downLoad">
             <i class="elm">&#xe722;</i>
             <span>下载饿了么APP</span>
             <i class="jiantouR enterT">&#xe74c;</i>
@@ -82,7 +82,27 @@
 
 <script>
     export default {
-        name: "Head"
+        name: "Head",
+        methods: {
+          serve() {
+            this.$router.push({name: 'serve'})
+          },
+          vipCard() {
+            this.$router.push({name: 'vipCard'})
+          },
+          downLoad() {
+            this.$router.push({name: 'downLoad'})
+          },
+          integral() {
+            this.$router.push({name: 'integralMall'})
+          },
+          mine() {
+            this.$router.push({name: 'myOrder'})
+          },
+          getBack() {
+            this.$router.go(-1)
+          }
+        }
     }
 </script>
 

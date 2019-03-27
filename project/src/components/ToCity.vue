@@ -59,14 +59,14 @@ import Vue from 'vue'
         },
         deposit(m) {
           this.$store.commit('history', m);
-          this.$router.push({path: '/takeout'})
+          this.$router.push({path: '/all'})
         },
         remove() {
           localStorage.clear();
           this.message.splice(0, this.message.length);
         },
         toCity() {
-          this.$router.push({path: '/takeout'})
+          this.$router.push({path: '/all'})
         }
       },
       mounted() {

@@ -47,7 +47,7 @@
         })
       },
       toLogin() {
-        this.$router.push({path: '/login'})
+        this.$router.go(-1);
       }
     }
   }
@@ -76,8 +76,6 @@
     height: 0.6rem;
     padding-left: 0.2rem;
     font-size: 0.25rem;
-    outline:none;
-    border:none
   }
   .changeP {
     position: absolute;

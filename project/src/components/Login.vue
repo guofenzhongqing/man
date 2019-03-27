@@ -49,7 +49,7 @@
           })
         },
           toAllCity() {
-          this.$router.push({path:'/allCity'})
+          this.$router.go(-1);
           }
       },
       mounted() {
@@ -82,8 +82,6 @@ section {
     height: 0.6rem;
     font-size: 0.2rem;
     padding-left: 0.2rem;
-    outline:none;
-    border:none
   }
 .inp1 {
   margin-top: 0.5rem;
