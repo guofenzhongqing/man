@@ -1,12 +1,12 @@
 <template>
   <section>
-    <div class="footR">
+    <div class="footR nav navbar-fixed-bottom">
       <!--首页-->
       <div >
         <router-link :to="{path: '/all/takeout'}" class="da h" >
           <i class="elm">&#xe722;</i>
         </router-link>
-        <p class="fa top">首页</p>
+        <p class="fa top">外卖</p>
       </div>
       <!--搜索-->
       <div >
@@ -95,7 +95,7 @@
   }
   .top{
     position: absolute;
-    left: 0.34rem;
+    left: 0.54rem;
     top: 0.5rem;
   }
 </style>

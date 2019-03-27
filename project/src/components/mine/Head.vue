@@ -21,7 +21,7 @@
 
       <div class="content">
         <!--我的余额-->
-        <div class="MyBalance">
+        <div class="MyBalance" @click="MyBalance">
           <span class="s1">0.00</span>元
           <br>
           <span class="s2">我的余额</span>
@@ -33,7 +33,7 @@
           <span class="s2">我的优惠</span>
         </div>
         <!--我的积分-->
-        <div class="MyIntegral">
+        <div class="MyIntegral" @click="MyIntegral">
           <span class="s4">0</span>分
           <br>
           <span class="s2">我的积分</span>
@@ -76,7 +76,7 @@
           </div>
         </div>
       </div>
-
+   <router-view></router-view>
     </section>
 </template>
 
@@ -101,6 +101,12 @@
           },
           getBack() {
             this.$router.go(-1)
+          },
+          MyBalance() {
+            this.$router.push({name: 'MyBalance'})
+          },
+          MyIntegral() {
+            this.$router.push({name: 'MyIntegral'})
           }
         }
     }

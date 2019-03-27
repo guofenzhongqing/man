@@ -6,11 +6,11 @@
       <span>服务中心</span>
     </div>
     <div class="kefu">
-      <div class="kefuOne">
+      <div class="kefuOne" @click="kefu">
         <i class="kefu1">&#xe624;</i>
         <p>在线客服</p>
       </div>
-      <div class="kefuTwo">
+      <div class="kefuTwo" @click="callPhone">
         <i class="kefu2">&#xe606;</i>
         <p>在线客服</p>
       </div>
@@ -110,6 +110,12 @@
         methods: {
         getBack() {
           this.$router.go(-1);
+        },
+        callPhone(){
+          window.location.href = 'tel://10105757'
+        },
+        kefu(){
+          this.$router.push({name: 'kefu'})
         }
       }
     }
