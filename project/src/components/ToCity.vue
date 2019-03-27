@@ -9,13 +9,15 @@
         <input type="text" placeholder="输入学校、商务楼、地址" class="seek" v-model="round"><br>
         <button class="btn btn-primary present" @click="site">提交</button>
       </div>
-      <div class="history"  v-if="hiddd">
+      <div class="history">
         <p style="margin: 0.05rem 0.1rem">搜索历史</p>
-        <div v-for="pro in message" class="message" @click="toCity">
-          <p class="p1">{{pro.name}}</p>
-          <p class="p2">{{pro.address}}</p>
+        <div v-if="hiddd">
+          <div v-for="pro in message" class="message" @click="toCity">
+            <p class="p1">{{pro.name}}</p>
+            <p class="p2">{{pro.address}}</p>
+          </div>
+          <p class="delete" @click="remove">清空所有</p>
         </div>
-        <p class="delete" @click="remove">清空所有</p>
       </div>
       <div v-for="message in array" class="message" @click="deposit(message)">
         <p class="p1">{{message.name}}</p>
@@ -31,7 +33,7 @@ import Vue from 'vue'
         data() {
           return {
             round: '',
-            hiddd: true,
+            hiddd: false,
             array: [],
             message: []
           }
@@ -49,13 +51,17 @@ import Vue from 'vue'
           this.$router.push({path: '/allCity'})
         },
         site() {
-          this.hiddd = !this.hiddd;
-          let url = 'https://elm.cangdu.org/v1/pois?city_id=' + this.$route.query.id + '&keyword=' + this.round + '&type=search'
-          Vue.axios.get(url, null).then((res) => {
-            this.array = res.data;
-          }).catch((error) => {
-            console.log(error);
-          })
+          if (this.round === '') {
+            alert('输入内容不能为空')
+          } else {
+            let url = 'https://elm.cangdu.org/v1/pois?city_id=' + this.$route.query.id + '&keyword=' + this.round + '&type=search'
+            Vue.axios.get(url, null).then((res) => {
+              this.array = res.data;
+            }).catch((error) => {
+              console.log(error);
+            })
+          }
+
         },
         deposit(m) {
           this.$store.commit('history', m);
