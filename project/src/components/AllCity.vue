@@ -8,20 +8,20 @@
       <span class="span">当前定位城市:</span>
       <span class="pull-right span1">定位不准时, 请在城市列表中选择</span>
     </nav>
-    <nav class="nav3">
-      <router-link to="{}">{{city}}</router-link>
-      <router-link to="{}" class="glyphicon glyphicon-chevron-right pull-right jt"></router-link>
-    </nav>
+    <router-link :to="{path: '/toCity', query:{name: city, id: id}}" class="nav3">
+      <span>{{city}}</span>
+      <span class="glyphicon glyphicon-chevron-right pull-right jt" style="color: #999999;"></span>
+    </router-link>
     <ul class="row hotcity">
       <li class="col-xs-12 hot1">热门城市</li>
       <li class="col-xs-3 pl" v-for="city in array">
-        <router-link to="{}">{{city.name}}</router-link>
+        <router-link :to="{path: '/toCity', query:{name: city.name, id: city.id}}">{{city.name}}</router-link>
       </li>
     </ul>
     <ul class="row ul2" v-for="pro in letter">
       <li class="col-xs-12 letter1">{{pro.letter}}</li>
       <li class="col-xs-3 city1" v-for="city in pro.city" style="overflow: hidden;white-space: nowrap;text-overflow: ellipsis;">
-        <router-link to="{}">{{city.name}}</router-link>
+        <router-link :to="{path: '/toCity', query:{name: city.name, id: city.id}}">{{city.name}}</router-link>
       </li>
     </ul>
   </section>
@@ -35,12 +35,14 @@
       return {
         city: '',
         array: [],
-        letter: []
+        letter: [],
+        id: ''
       }
     },
     mounted() {
       Vue.axios.get('https://elm.cangdu.org/v1/cities?type=guess', null).then((res) => {
         this.city = res.data.name;
+        this.id = res.data.id;
       }).catch((error) => {
         console.log(error);
       })
@@ -109,15 +111,13 @@
     margin-top: 0.02rem;
   }
   .nav3 {
+    display: block;
     width: 104%;
     padding: 0.1rem 0.15rem;
     border-bottom: 0.02rem solid lightgrey;
   }
-  .nav3>a {
+  .nav3>span {
     font-size: 0.2rem;
-  }
-  .jt {
-    color: #999999;
   }
   .hotcity {
     border-top: 0.02rem solid lightgrey;
