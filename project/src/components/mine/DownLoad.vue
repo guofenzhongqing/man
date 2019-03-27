@@ -23,7 +23,6 @@
 </script>
 
 <style scoped>
-  @import"../../assets/css/Iconfont.css";
   section{
     position: relative;
   }

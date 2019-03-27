@@ -43,7 +43,6 @@
 </script>
 
 <style scoped>
-  @import"../assets/css/Iconfont.css";
    .footR{
      height: 0.5rem;
      width: 100%;

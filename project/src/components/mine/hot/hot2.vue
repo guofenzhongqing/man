@@ -34,7 +34,6 @@
 </script>
 
 <style scoped>
-  @import"../../../assets/css/Iconfont.css";
   .head{
     width: 100%;
     height: 0.4rem;
