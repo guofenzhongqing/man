@@ -36,6 +36,8 @@
     font-size: 0.2rem;
     text-align: center;
     overflow: hidden;
+    position: fixed;
+    z-index: 2;
   }
   .jiantouL{
     float: left;

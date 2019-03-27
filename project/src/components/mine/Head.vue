@@ -117,6 +117,8 @@
   font-size: 0.2rem;
   text-align: center;
   overflow: hidden;
+  position: fixed;
+  z-index: 2;
 }
 .head>span{
   margin-right: 0.1rem;
@@ -127,9 +129,10 @@
 }
 .info{
   width: 100%;
-  height: 0.9rem;
+  height: 1.3rem;
   background-color: #008de1;
   color: white;
+  padding-top: 0.4rem;
 }
 .touxiang{
    font-size: 0.6rem;

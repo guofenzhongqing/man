@@ -126,10 +126,17 @@
     font-size: 0.2rem;
     text-align: center;
     overflow: hidden;
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 2;
   }
   .jiantouL{
     float: left;
     font-size: 0.2rem;
+  }
+  .kefu{
+    margin-top: -0.7rem;
   }
   .kefuOne{
     width: 50%;
@@ -159,7 +166,8 @@
   .hot{
     font-size: 0.2rem;
     margin-top: 1.1rem;
-    padding-bottom: 0.08rem;
+    padding-bottom: 0.06rem;
+    padding-top: 1.1rem;
     padding-left: 0.2rem;
   }
   .col-xs-12{

@@ -44,6 +44,8 @@
     font-size: 0.2rem;
     text-align: center;
     overflow: hidden;
+    position: fixed;
+    z-index: 2;
   }
   .jiantouL{
     float: left;
@@ -53,5 +55,6 @@
     margin-left: 0.15rem;
     margin-right: 0.15rem;
     font-size: 0.18rem;
+    padding-top: 0.4rem;
   }
 </style>
