@@ -39,6 +39,15 @@ import DownLoad from '../components/mine/DownLoad'
 import IntegralMall from '../components/mine/IntegralMall'
 import Classify from '../components/Classify'
 import Search from '../components/Search'
+import BalanceQ from '../components/mine/BalanceQ'
+import IntegralQ from '../components/mine/IntegralQ'
+import MyBalance from '../components/mine/MyBalance'
+import MyIntegral from '../components/mine/MyIntegral'
+import kefu from '../components/mine/hot/kefu'
+import VipExplain from '../components/mine/vip/VipExplain'
+import Invoice from '../components/mine/vip/Invoice'
+import ExchangeVip from '../components/mine/vip/ExchangeVip'
+import BuyVip from '../components/mine/vip/BuyVip'
 
 export default new Router({
   routes: [
@@ -79,6 +88,16 @@ export default new Router({
     {path: '/hot18', component: hot18, name: 'hot18'},
     {path: '/hot19', component: hot19, name: 'hot19'},
     {path: '/hot20', component: hot20, name: 'hot20'},
-    {path: '/hot21', component: hot21, name: 'hot21'}
+    {path: '/hot21', component: hot21, name: 'hot21'},
+    {path: '/kefu', component: kefu, name: 'kefu'},
+    {path: '/MyBalance', component: MyBalance, name: 'MyBalance'},
+    {path: '/MyIntegral', component: MyIntegral, name: 'MyIntegral'},
+    {path: '/BalanceQ', component: BalanceQ, name: 'BalanceQ'},
+    {path: '/IntegralQ', component: IntegralQ, name: 'IntegralQ'},
+    {path: '/VipExplain', component: VipExplain, name: 'VipExplain'},
+    {path: '/Invoice', component: Invoice, name: 'Invoice'},
+    {path: '/ExchangeVip', component: ExchangeVip, name: 'ExchangeVip'},
+    {path: '/BuyVip', component: BuyVip, name: 'BuyVip'},
+
   ]
 })
