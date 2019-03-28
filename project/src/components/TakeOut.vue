@@ -4,8 +4,8 @@
         <router-link to="{}" style="margin-left: 0.05rem">
           <i class="fdj" style="font-size: 0.2rem">&#xe614;</i>
         </router-link>
-        <router-link to="{}" class="ming">{{name}}</router-link>
-        <router-link to="{}" style="margin-right: 0.05rem">登录|注册</router-link>
+        <router-link :to="{path: '/allCity'}" class="ming">{{name}}</router-link>
+        <router-link :to="{path: '/login'}" style="margin-right: 0.05rem">登录|注册</router-link>
       </div>
       <mt-swipe :auto="0" class="wheel">
         <mt-swipe-item>
