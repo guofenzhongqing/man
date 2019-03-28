@@ -2,7 +2,7 @@
     <section>
       <div class="head navbar-fixed-top">
         <span class="glyphicon glyphicon-chevron-left arrows" @click="toAllCity"></span>
-        <span class="city">{{getName}}</span>
+        <span class="city">{{name}}</span>
         <span class="cut" @click="toCutCity">切换城市</span>
       </div>
       <div class="below">
@@ -11,14 +11,12 @@
       </div>
       <div class="history">
         <p style="margin: 0.05rem 0.1rem">搜索历史</p>
-        <div v-if="hiddd">
-          <div v-for="pro in message" class="message" @click="toCity">
+          <div v-for="pro in message" class="message" @click="toCity(pro)" v-if="hide">
             <p class="p1">{{pro.name}}</p>
             <p class="p2">{{pro.address}}</p>
           </div>
-          <p class="delete" @click="remove">清空所有</p>
+          <p class="delete" @click="remove" v-if="hide">清空所有</p>
         </div>
-      </div>
       <div v-for="message in array" class="message" @click="deposit(message)">
         <p class="p1">{{message.name}}</p>
         <p class="p2">{{message.address}}</p>
@@ -29,20 +27,16 @@
 <script>
 import Vue from 'vue'
     export default {
-        name: "ToCity",
-        data() {
-          return {
-            round: '',
-            hiddd: false,
-            array: [],
-            message: []
-          }
-        },
-        computed: {
-          getName() {
-            return this.$route.query.name
-          }
-        },
+      name: "ToCity",
+      data() {
+        return {
+          name: '',
+          round: '',
+          hide: true,
+          array: [],
+          message: [],
+        }
+      },
       methods: {
         toAllCity() {
           this.$router.go(-1);
@@ -51,32 +45,36 @@ import Vue from 'vue'
           this.$router.push({path: '/allCity'})
         },
         site() {
-          if (this.round === '') {
-            alert('输入内容不能为空')
+          // this.hiddd = 'false';
+          if (this.round == '') {
+            alert("输入内容不能为空");
           } else {
-            let url = 'https://elm.cangdu.org/v1/pois?city_id=' + this.$route.query.id + '&keyword=' + this.round + '&type=search'
+            this.hide = false;
+            let url = 'https://elm.cangdu.org/v1/pois?city_id=' + this.$route.query.id+ '&keyword=' + this.round + '&type=search'
             Vue.axios.get(url, null).then((res) => {
               this.array = res.data;
             }).catch((error) => {
               console.log(error);
             })
           }
-
         },
-        deposit(m) {
-          this.$store.commit('history', m);
-          this.$router.push({path: '/all'})
-        },
-        remove() {
-          localStorage.clear();
-          this.message.splice(0, this.message.length);
-        },
-        toCity() {
-          this.$router.push({path: '/all'})
-        }
+      deposit(m) {
+        this.$router.push({path: '/all'})
+        this.$store.commit('history', m)
+        this.$store.commit('toCity', m)
+      },
+      remove() {
+        localStorage.clear();
+        this.message.splice(0, this.message.length);
+      },
+      toCity(p) {
+        this.$router.push({path: '/all'})
+        this.$store.commit('toCity', p)
+      }
       },
       mounted() {
-       this.message = JSON.parse(localStorage.getItem("arr"));
+       this.message = JSON.parse(localStorage.getItem("history"));
+       this.name = this.$route.query.name
       }
     }
 </script>
