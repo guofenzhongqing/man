@@ -23,8 +23,8 @@
       </mt-swipe>
       <div class="foot">
           <div style="margin: 0.1rem">
-            <i class="jifen">&#xe607;</i>
-            <span>附近商家</span>
+            <i class="jifen" style="font-size: 0.15rem">&#xe607;</i>
+            <span style="font-size: 0.15rem">附近商家</span>
           </div>
         <div v-for="pro in shop" style="position: relative;padding:0.2rem 0;border-bottom: 0.01rem solid lightgrey">
           <img :src="'https://elm.cangdu.org/img/'+pro.image_path" alt="" class="picture">
@@ -44,7 +44,7 @@
              </div>
             <p class="give">{{pro.delivery_mode.text}}</p>
             <p class="clocklike">{{(pro.supports)[1].name}}</p>
-            <div class="time"><span>{{pro.distance}}</span> / <span style="color: #008de1">{{pro.order_lead_time}}</span></div>
+            <div class="time"><span>{{pro.distance}}</span>/<span style="color: #008de1">{{pro.order_lead_time}}</span></div>
             </div>
       </div>
     </section>
@@ -160,7 +160,7 @@ import Vue from 'vue'
   }
   .moneny {
     position: absolute;
-    font-size: 0.13rem;
+    font-size: 0.12rem;
     top: 0.85rem;
     left: 1rem;
   }
@@ -203,12 +203,12 @@ import Vue from 'vue'
     right: 0.05rem;
   }
   .time > span {
-    font-size: 0.13rem;
+    font-size: 0.12rem;
   }
   .time {
     position: absolute;
-    top: 0.8rem;
-    right: 0.1rem;
+    top: 0.82rem;
+    right: 0.06rem;
   }
 </style>
 <style>
