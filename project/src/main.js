@@ -8,6 +8,7 @@ import MintUI from 'mint-ui'
 import 'mint-ui/lib/style.css'
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
+import '../node_modules/animate.css/animate.min.css'
 import vuex from 'vuex'
 Vue.use(vuex);
 Vue.use(MintUI);
@@ -18,7 +19,6 @@ Vue.config.productionTip = false
 const store = new vuex.Store({
   state: {
     arr: [],
-    obj: {}
   },
   getters: {},
   mutations: {
@@ -28,6 +28,12 @@ const store = new vuex.Store({
     },
     toCity(state, payload) {
      localStorage.setItem("city", JSON.stringify(payload));
+    },
+    foodstuff(satte, payload) {
+      localStorage.setItem("food", JSON.stringify(payload));
+    },
+    enter(statr, payload) {
+      localStorage.setItem("enter", JSON.stringify(payload));
     }
   },
   actions: {},

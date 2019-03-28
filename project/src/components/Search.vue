@@ -8,32 +8,46 @@
       </div>
       <!--搜索框-->
       <div class="input">
-        <input v-model="text" type="text" placeholder="请输入商家或美食名称" />
-        <button @click="searchTo">提交</button>
+        <input type="text" placeholder="请输入商家或美食名称" v-model="num"/>
+        <button @click="sub">提交</button>
       </div>
-         <p>搜索历史</p>
-      <p :for=" keyword in array">{{keyword.name}}</p>
+         <!--<p style="margin: 0.2rem;font-size: 0.2rem;font-weight: 900">搜索历史</p>-->
+      <div>
+        <p style="margin: 0.2rem;font-size: 0.2rem;font-weight: 900">商家</p>
+        <div>
+          <p></p>
+          <p></p>
+        </div>
+      </div>
     </section>
 </template>
 
 <script>
+  import Vue from 'vue';
     export default {
       name: "Search",
       data() {
         return {
-          array: [],
-          keyword: ''
+          num: '',
         }
       },
       methods: {
         //  返回
         getBack() {
           this.$router.go(-1);
+        },
+        sub() {
+          let obj = JSON.parse(localStorage.getItem("city")).geohash
+          let url = 'https://elm.cangdu.org/v4/restaurants?geohash='+obj+'&keyword='+this.num
+          Vue.axios.get(url, null).then((res) => {
+            console.log(res)
+          }).catch((error) => {
+            console.log(error);
+          })
         }
-
-
+      },
+      mounted() {
       }
-
     }
 </script>
 
@@ -70,6 +84,8 @@
     height: .4rem;
     margin-right: .1rem;
     margin-top: .5rem;
+    padding-left: 0.1rem;
+    font-size: 0.18rem;
   }
   /*按钮*/
   button{

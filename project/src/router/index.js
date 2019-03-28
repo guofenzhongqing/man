@@ -37,6 +37,8 @@ import Serve from '../components/mine/Serve'
 import VipCard from '../components/mine/VipCard'
 import DownLoad from '../components/mine/DownLoad'
 import IntegralMall from '../components/mine/IntegralMall'
+import Classify from '../components/Classify'
+import Search from '../components/Search'
 
 export default new Router({
   routes: [
@@ -48,6 +50,7 @@ export default new Router({
     {path: '/all', component: All, children: [
         {path: '/', redirect: 'takeout'},
         {path: 'takeout', component: TakeOut},
+        {path: 'search', component: Search},
         {path: 'myOrder', component: MyOrder, name: 'myOrder'},
         {path: 'head', component: Head},
       ]},
@@ -55,6 +58,7 @@ export default new Router({
     {path: '/vipCard', component: VipCard, name: 'vipCard'},
     {path: '/downLoad', component: DownLoad, name: 'downLoad'},
     {path: '/serve', component: Serve, name: 'serve'},
+    {path: '/classify', component: Classify, name: 'classify'},
     {path: '/hot1', component: hot1, name: 'hot1'},
     {path: '/hot2', component: hot2, name: 'hot2'},
     {path: '/hot3', component: hot3, name: 'hot3'},
