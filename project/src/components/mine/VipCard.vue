@@ -9,7 +9,7 @@
       <div class="div1">
         <div class="d1">
           <span>会员特权</span>
-          <router-link :to="{}">
+          <router-link :to="{name:'VipExplain'}">
             <span class="s1">会员说明</span>
             <i class="jiantouR">&#xe74c;</i>
           </router-link>
@@ -39,13 +39,22 @@
         <p id="p1">开通会员</p>
         <p id="p2">
           1个月 <span>¥20</span>
-          <a>购买</a>
+          <router-link :to="{name:'BuyVip'}">
+            购买
+          </router-link>
         </p>
       </div>
       <div class="div3">
         <span>兑换会员</span>
-        <router-link :to="{}">
+        <router-link :to="{name:'ExchangeVip'}">
           <span class="s1">使用卡号卡密</span>
+          <i class="jiantouR">&#xe74c;</i>
+        </router-link>
+      </div>
+      <div class="div4">
+        <span>购买记录</span>
+        <router-link :to="{name:'Invoice'}">
+          <span class="s2">开发票</span>
           <i class="jiantouR">&#xe74c;</i>
         </router-link>
       </div>
@@ -58,7 +67,7 @@
         methods: {
         getBack() {
           this.$router.go(-1);
-        }
+        },
       }
     }
 </script>
@@ -107,6 +116,7 @@
   }
   .d1>a>i{
     font-size: 0.12rem;
+    padding-right: 0.05rem;
   }
   .d2{
     border-bottom: 0.01rem solid gainsboro;
@@ -176,8 +186,45 @@
   .div3{
     background-color: white;
     margin-top: 0.1rem;
+    padding-top: 0.1rem;
+    padding-bottom: 0.1rem;
+    padding-left: 0.1rem;
   }
   .div3>span{
     font-size: 0.18rem;
+  }
+  .div3>a{
+    float: right;
+  }
+  .s1{
+    font-size: 0.14rem;
+    color: gray;
+  }
+  .div3 i{
+    font-size: 0.12rem;
+    color: gray;
+    padding-right: 0.05rem;
+  }
+  .div4{
+    background-color: white;
+    margin-top: 0.1rem;
+    padding-top: 0.1rem;
+    padding-bottom: 0.1rem;
+    padding-left: 0.1rem;
+  }
+  .div4>span{
+    font-size: 0.18rem;
+  }
+  .div4>a{
+    float: right;
+  }
+  .s2{
+    font-size: 0.14rem;
+    color: gray;
+  }
+  .div4 i{
+    font-size: 0.12rem;
+    color: gray;
+    padding-right: 0.05rem;
   }
 </style>
