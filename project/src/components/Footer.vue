@@ -10,7 +10,7 @@
       </div>
       <!--搜索-->
       <div >
-        <router-link :to="{}" class="znz da">
+        <router-link :to="{path: '/all/search'}" class="znz da">
           <i class="znz">&#xe627;</i>
         </router-link>
         <p class="fa">搜索</p>
