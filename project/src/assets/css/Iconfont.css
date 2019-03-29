@@ -1,128 +1,18 @@
 @font-face {
   font-family: 'iconfont';  /* project id 1106933 */
-  src: url('//at.alicdn.com/t/font_1106933_olb1hn5wije.eot');
-  src: url('//at.alicdn.com/t/font_1106933_olb1hn5wije.eot?#iefix') format('embedded-opentype'),
-  url('//at.alicdn.com/t/font_1106933_olb1hn5wije.woff2') format('woff2'),
-  url('//at.alicdn.com/t/font_1106933_olb1hn5wije.woff') format('woff'),
-  url('//at.alicdn.com/t/font_1106933_olb1hn5wije.ttf') format('truetype'),
-  url('//at.alicdn.com/t/font_1106933_olb1hn5wije.svg#iconfont') format('svg');
+  src: url('//at.alicdn.com/t/font_1106933_hhh0nuset0c.eot');
+  src: url('//at.alicdn.com/t/font_1106933_hhh0nuset0c.eot?#iefix') format('embedded-opentype'),
+  url('//at.alicdn.com/t/font_1106933_hhh0nuset0c.woff2') format('woff2'),
+  url('//at.alicdn.com/t/font_1106933_hhh0nuset0c.woff') format('woff'),
+  url('//at.alicdn.com/t/font_1106933_hhh0nuset0c.ttf') format('truetype'),
+  url('//at.alicdn.com/t/font_1106933_hhh0nuset0c.svg#iconfont') format('svg');
 }
-.jiantouL{
+.jiantouL,.touxiang,.phone,.jiantouR,.dingdan,.elm,.znz,.mine,.jifen,.vip,.fuwu,.kefu1,.kefu2,.wenhao,.fdj,.jiaoyi,.gth,.duigou,.iphone{
   font-family:"iconfont" !important;
   font-size:16px;font-style:normal;
   -webkit-font-smoothing: antialiased;
   -webkit-text-stroke-width: 0.2px;
   -moz-osx-font-smoothing: grayscale;
 }
-.touxiang{
-  font-family:"iconfont" !important;
-  font-size:16px;font-style:normal;
-  -webkit-font-smoothing: antialiased;
-  -webkit-text-stroke-width: 0.2px;
-  -moz-osx-font-smoothing: grayscale;
-}
-.phone{
-  font-family:"iconfont" !important;
-  font-size:16px;font-style:normal;
-  -webkit-font-smoothing: antialiased;
-  -webkit-text-stroke-width: 0.2px;
-  -moz-osx-font-smoothing: grayscale;
-}
-.jiantouR{
-  font-family:"iconfont" !important;
-  font-size:16px;font-style:normal;
-  -webkit-font-smoothing: antialiased;
-  -webkit-text-stroke-width: 0.2px;
-  -moz-osx-font-smoothing: grayscale;
-}
-.dingdan{
-  font-family:"iconfont" !important;
-  font-size:16px;font-style:normal;
-  -webkit-font-smoothing: antialiased;
-  -webkit-text-stroke-width: 0.2px;
-  -moz-osx-font-smoothing: grayscale;
-}
-.elm{
-  font-family:"iconfont" !important;
-  font-size:16px;font-style:normal;
-  -webkit-font-smoothing: antialiased;
-  -webkit-text-stroke-width: 0.2px;
-  -moz-osx-font-smoothing: grayscale;
-}
-.znz{
-  font-family:"iconfont" !important;
-  font-size:16px;font-style:normal;
-  -webkit-font-smoothing: antialiased;
-  -webkit-text-stroke-width: 0.2px;
-  -moz-osx-font-smoothing: grayscale;
-}
-.mine{
-  font-family:"iconfont" !important;
-  font-size:16px;font-style:normal;
-  -webkit-font-smoothing: antialiased;
-  -webkit-text-stroke-width: 0.2px;
-  -moz-osx-font-smoothing: grayscale;
-}
-.jifen{
-  font-family:"iconfont" !important;
-  font-size:16px;font-style:normal;
-  -webkit-font-smoothing: antialiased;
-  -webkit-text-stroke-width: 0.2px;
-  -moz-osx-font-smoothing: grayscale;
-}
-.vip{
-  font-family:"iconfont" !important;
-  font-size:16px;font-style:normal;
-  -webkit-font-smoothing: antialiased;
-  -webkit-text-stroke-width: 0.2px;
-  -moz-osx-font-smoothing: grayscale;
-}
-.fuwu{
-  font-family:"iconfont" !important;
-  font-size:16px;font-style:normal;
-  -webkit-font-smoothing: antialiased;
-  -webkit-text-stroke-width: 0.2px;
-  -moz-osx-font-smoothing: grayscale;
-}
-.kefu1{
-  font-family:"iconfont" !important;
-  font-size:16px;font-style:normal;
-  -webkit-font-smoothing: antialiased;
-  -webkit-text-stroke-width: 0.2px;
-  -moz-osx-font-smoothing: grayscale;
-}
-.kefu2{
-  font-family:"iconfont" !important;
-  font-size:16px;font-style:normal;
-  -webkit-font-smoothing: antialiased;
-  -webkit-text-stroke-width: 0.2px;
-  -moz-osx-font-smoothing: grayscale;
-}
-.wenhao{
-  font-family:"iconfont" !important;
-  font-size:16px;font-style:normal;
-  -webkit-font-smoothing: antialiased;
-  -webkit-text-stroke-width: 0.2px;
-  -moz-osx-font-smoothing: grayscale;
-}
-.fdj{
-  font-family:"iconfont" !important;
-  font-size:16px;font-style:normal;
-  -webkit-font-smoothing: antialiased;
-  -webkit-text-stroke-width: 0.2px;
-  -moz-osx-font-smoothing: grayscale;
-}
-.jiaoyi{
-  font-family:"iconfont" !important;
-  font-size:16px;font-style:normal;
-  -webkit-font-smoothing: antialiased;
-  -webkit-text-stroke-width: 0.2px;
-  -moz-osx-font-smoothing: grayscale;
-}
-.gth{
-  font-family:"iconfont" !important;
-  font-size:16px;font-style:normal;
-  -webkit-font-smoothing: antialiased;
-  -webkit-text-stroke-width: 0.2px;
-  -moz-osx-font-smoothing: grayscale;
-}
+
+
