@@ -27,7 +27,7 @@
           <span class="s2">我的余额</span>
         </div>
         <!--我的优惠-->
-        <div class="MyDiscount">
+        <div class="MyDiscount" @click="MyDiscounts">
           <span class="s3">0</span>个
           <br>
           <span class="s2">我的优惠</span>
@@ -107,6 +107,9 @@
           },
           MyIntegral() {
             this.$router.push({name: 'MyIntegral'})
+          },
+          MyDiscounts(){
+            this.$router.push({name: 'MyDiscounts'})
           }
         }
     }

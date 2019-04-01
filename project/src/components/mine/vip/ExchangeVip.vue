@@ -8,7 +8,7 @@
     <p class="p1">成功兑换后将关联到当前账号: <strong>dome</strong></p>
     <input type="text" placeholder="请输入10位卡号" oninput="if(value.length > 10)value = value.slice(0, 10)" v-model="i1">
     <input type="text" placeholder="请输入6位卡密" oninput="if(value.length > 6)value = value.slice(0, 6)" v-model="i2">
-    <button @click="b1" :disabled="i1.length==10&&i2.length==6 ? false : true" :class="{sb:i1.length==10&&i2.length==6 ? true : false}">兑换</button>
+    <button @click="b1" :disabled="i1.length == 10 && i2.length == 6 ? false : true" :class="{sb:i1.length == 10 && i2.length == 6 ? true : false}">兑换</button>
     <p class="p2">----温馨提示----</p>
     <p class="p3">新兑换的会员服务,权益以「会员说明」为准。<br>月卡: 30次减免配送费。<br>季卡: 90次减免配送费。<br>年卡: 360次减免配送费。<br>*仅限蜂鸟专送订单,每日最多减免3单,每单最高减免4元(一个月按31天计算)</p>
 

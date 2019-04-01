@@ -15,14 +15,28 @@
     <div class="d3">
       <img src="../../../assets/img/zhifubao.png">
       <span>支付宝</span>
-      <i class="duigou">&#xe65c;</i>
+      <i class="duigou" @click="zhifubao" :class="{changeBgc:duigou}">&#xe65c;</i>
     </div>
     <div class="d4">
       <img src="../../../assets/img/weixin.png">
       <span>微信</span>
-      <i class="duigou">&#xe65c;</i>
+      <i class="duigou" @click="weixin" :class="{changeBgc:!duigou}">&#xe65c;</i>
     </div>
-      <button>确认支付</button>
+      <button @click="buy">确认支付</button>
+    <div class="dis"  v-if="!show">
+      <div class="topT">
+        <i class="gth">&#xe60d;</i>
+        <p>暂不开放支付功能</p >
+      </div>
+      <button class="btn1" @click="none">确定</button>
+    </div>
+    <div class="dis"  v-if="!noshow">
+      <div class="topT">
+        <i class="gth">&#xe60d;</i>
+        <p>当前环境无法支付,请打开官方APP进行付款</p >
+      </div>
+      <button class="btn2" @click="yes">确定</button>
+    </div>
   </section>
 </template>
 
@@ -33,7 +47,10 @@
           return{
             minutes: 15,
             seconds: 0,
-            hour:0
+            hour:0,
+            show:false,
+            noshow:true,
+            duigou:true
           };
       },
       mounted(){
@@ -42,6 +59,24 @@
       methods: {
         getBack() {
           this.$router.go(-1);
+        },
+        block(){
+          this.show = false
+        },
+        none(){
+          this.show = true
+        },
+        buy(){
+          this.noshow = false
+        },
+        yes(){
+            this.$router.push({name:'myOrder'})
+        },
+        zhifubao(){
+          this.duigou = !this.duigou
+        },
+        weixin(){
+          this.duigou = !this.duigou
         },
         // 倒计时
         num: function(n) {
@@ -165,5 +200,47 @@
     margin-left: 5%;
     margin-top: 3%;
     border-radius: 0.06rem;
+  }
+  .dis{
+    width: 70%;
+    height: 1.4rem;
+    background-color: white;
+    position: absolute;
+    top: 1.2rem;
+    left: 0.6rem;
+    text-align: center;
+    border-top-left-radius: 0.1rem;
+    border-top-right-radius: 0.1rem;
+  }
+  .btn1{
+    width: 100%;
+    height: 0.4rem;
+    color: white;
+    font-size: 0.18rem;
+    margin-top: 0.1rem;
+    background-color: limegreen;
+    border-bottom-left-radius: 0.1rem;
+    border-bottom-right-radius: 0.1rem;
+    position: absolute;
+    left: -0.124rem;
+  }
+  .gth{
+    font-size: 0.6rem;
+    color: yellow;
+  }
+  .btn2{
+    width: 100%;
+    height: 0.4rem;
+    color: white;
+    font-size: 0.18rem;
+    margin-top: -0.03rem;
+    background-color: limegreen;
+    border-bottom-left-radius: 0.1rem;
+    border-bottom-right-radius: 0.1rem;
+    position: absolute;
+    left: -0.124rem;
+  }
+  .changeBgc{
+    color: limegreen;
   }
 </style>
