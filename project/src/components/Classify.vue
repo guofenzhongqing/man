@@ -21,121 +21,75 @@
     <transition name="all">
       <ul class="all equal" v-if="small">
         <div class="zuo">
-          <li>
-            <p style="font-size: 0.14rem;margin: 0.15rem">异国料理</p>
-            <p style="font-size: 0.14rem; margin: 0.15rem;width: 0.4rem;height: 0.2rem;border-radius: 0.1rem;background-color: #CCCCCC;text-align: center;line-height: 0.2rem;color: white">1394</p>
+          <li v-for="pro in country" @click="retu">
+            <p style="font-size: 0.14rem;padding: 0.1rem 0 0 0.15rem">{{pro.name}}</p>
+            <p style="width: 0.3rem;height: 0.2rem;font-size: 0.12rem;background-color: #CCCCCC;border-radius: 0.1rem;text-align: center;line-height: 0.2rem;margin: 0.11rem 0.25rem 0 0">{{pro.count}}</p>
           </li>
-          <li>
-            <p class="up">
-              <i class="kuaican tubiao" style="color: #F1B08D">&#xe661;</i>
-              <span>快餐便当</span>
+          <li v-for="(item, index) in img" @click="change(index)" :class="{color : changeA == index}">
+            <p class="p1">
+              <img :src="item.image_url.slice(-4).endsWith('png')===true ? 'https://fuss10.elemecdn.com/'+item.image_url+'.png' : 'https://fuss10.elemecdn.com/'+item.image_url+'.jpeg'" alt="" v-if="item.image_url === '' ? false : true" class="img1">
+              <i class="shangjia" v-if="item.image_url === '' ? true : false" style="color: #2A5E99;font-size: 0.2rem">&#xe611;</i>
+              <span>{{item.name}}</span>
             </p>
-            <p class="up1">
-              <span class="num">1100</span>
-              <i class="jiantouR">&#xe74c;</i>
-            </p>
-          </li>
-          <li>
-            <p class="up">
-              <i class="xiaochi tubiao" style="color: #93CB74">&#xe601;</i>
-              <span>小吃夜宵</span>
-            </p>
-            <p class="up1">
-              <span class="num">91</span>
-              <i class="jiantouR">&#xe74c;</i>
-            </p>
-          </li>
-          <li>
-            <p class="up">
-              <i class="guoshu tubiao" style="color: #F1A7A7">&#xe615;</i>
-              <span>果蔬生鲜</span>
-            </p>
-            <p class="up1">
-              <span class="num">49</span>
-              <i class="jiantouR">&#xe74c;</i>
-            </p>
-          </li>
-          <li>
-            <p class="up">
-              <i class="tese tubiao" style="color: #F3BC67">&#xe605;</i>
-              <span>特色菜系</span>
-            </p>
-            <p class="up1">
-              <span class="num">43</span>
-              <i class="jiantouR">&#xe74c;</i>
-            </p>
-          </li>
-          <li>
-            <p class="up">
-              <i class="shangdian tubiao" style="color: #8DD2F5">&#xe62e;</i>
-              <span>商店超市</span>
-            </p>
-            <p class="up1">
-              <span class="num">19</span>
-              <i class="jiantouR">&#xe74c;</i>
-            </p>
-          </li>
-          <li>
-            <p class="up">
-              <i class="dangao tubiao" style="color: #8E90EE">&#xe6d7;</i>
-              <span>鲜花蛋糕</span>
-            </p>
-            <p class="up1">
-              <span class="num">13</span>
-              <i class="jiantouR">&#xe74c;</i>
-            </p>
-          </li>
-          <li>
-            <p class="up">
-              <i class="shangjia tubiao" style="color: #4D7CB9">&#xe611;</i>
-              <span>全部商家</span>
-            </p>
-            <p class="up1">
-              <span class="num">0</span>
-              <i class="jiantouR">&#xe74c;</i>
-            </p>
-          </li>
-          <li>
-            <p class="up">
-              <i class="inpin tubiao" style="color: #92DCBF">&#xe6cc;</i>
-              <span>甜品饮品</span>
-            </p>
-            <p class="up1">
-              <span class="num">21</span>
-              <i class="jiantouR">&#xe74c;</i>
-            </p>
+           <p class="p2">
+            <span class="span1">{{item.count}}</span>
+            <i class="jiantouR">&#xe74c;</i>
+           </p>
           </li>
         </div>
-        <div class="you">
-
-        </div>
+          <div class="you">
+            <li v-for="(pro,index) in img" v-if="changeA == index">
+              <p v-for="zi in pro.sub_categories.slice(1)" class="font" @click="spread(zi.id)">
+                <span class="fon">{{zi.name}}</span>
+                <span class="figure">{{zi.count}}</span>
+              </p>
+            </li>
+          </div>
       </ul>
     </transition>
       <transition name="part">
       <ul class="part equal" v-if="smallRank">
-        <div class="each" @click="select($event)">
+        <div class="each" @click="aptitude">
           <i class="paixu i" style="color: #68A3D5">&#xe65b;</i>
-          <p class="p">智能排序</p>
+          <p class="p" :class="{color1 : variate}">
+            <span>智能排序</span>
+          <i class="duihao" v-if="variate">&#xe630;</i>
+          </p>
         </div>
-        <div class="each" @click="select($event)">
+        <div class="each" @click="distance">
           <i class="juli i" style="color: #68A3D5">&#xe603;</i>
-          <p class="p">距离最近</p>
+          <p class="p" :class="{color1 : variate1}">
+            <span>距离最近</span>
+            <i class="duihao" v-if="variate1">&#xe630;</i>
+          </p>
         </div>
-        <div class="each" @click="select($event)">
+        <div class="each" @click="volume">
           <i class="xiaoliang i" style="color: #F49393">&#xe67f;</i>
-          <p class="p">销量最高</p>
+          <p class="p" :class="{color1 : variate2}">
+            <span>销量最高</span>
+            <i class="duihao" v-if="variate2">&#xe630;</i>
+          </p>
         </div>
-        <div class="each" @click="select($event)">
+        <div class="each" @click="minimum">
           <i class="qisongjia i" style="color: #F4DE96">&#xe602;</i>
-          <p class="p">起送价最低</p>
+          <p class="p" :class="{color1 : variate3}">
+            <span>起送价最低</span>
+            <i class="duihao" v-if="variate3">&#xe630;</i>
+          </p>
         </div>
-        <div class="each" @click="select($event)">
+        <div class="each" @click="speed">
           <i class="peisong i" style="color: #68A3D5">&#xe686;</i>
-          <p class="p">配送速度最快</p>
+          <p class="p" :class="{color1 : variate4}">
+            <span>配送速度最快</span>
+            <i class="duihao" v-if="variate4">&#xe630;</i>
+          </p>
         </div>
-        <div class="each" @click="select($event)">
+        <div class="each" @click="grade">
           <i class="pingfen i" style="color: #F3C683">&#xe60a;</i>
-          <p class="p">评分最高</p>
+          <p class="p" :class="{color1 : variate5}">
+            <span>评分最高</span>
+            <i class="duihao" v-if="variate5">&#xe630;</i>
+          </p>
         </div>
       </ul>
     </transition>
@@ -179,16 +133,35 @@
           </li>
         </ul>
       </transition>
-    <Merchant class="below"></Merchant>
+    <div class="below">
+      <div v-for="pro in shop" style="position: relative;padding:0.2rem 0;border-bottom: 0.01rem solid lightgrey">
+        <img :src="'https://elm.cangdu.org/img/'+pro.image_path" alt="" class="picture">
+        <span class="board">品牌</span>
+        <span class="result">{{pro.name}}</span>
+        <el-rate
+          v-model="pro.rating"
+          disabled
+          show-score
+          text-color="#ff9900"
+          score-template="{value}">
+        </el-rate>
+        <span class="mouth">月售{{pro.recent_order_num}}单</span>
+        <span class="moneny">¥{{pro.float_minimum_order_amount}}起送 / 配送费约¥{{pro.float_delivery_fee}}</span>
+        <div class="div1">
+          <p v-for="mon in pro.supports" class="p1">{{mon.icon_name}}</p>
+        </div>
+        <p class="give">{{pro.delivery_mode.text}}</p>
+        <p class="clocklike">{{(pro.supports)[1].name}}</p>
+        <div class="time"><span>{{pro.distance}}</span>/<span style="color: #008de1">{{pro.order_lead_time}}</span></div>
+    </div>
+    </div>
   </section>
 </template>
 
 <script>
   import Vue from 'vue'
-  import Merchant from "./Merchant";
   export default {
     name: "Classify",
-    components: {Merchant},
     data() {
       return {
         food: '',
@@ -196,13 +169,31 @@
         smallRank: false,
         smallScreen: false,
         img: [],
+        country: [],
+        changeA: -1,
+        variate: false,
+        variate1: false,
+        variate2: false,
+        variate3: false,
+        variate4: false,
+        variate5: false,
+        isRouterAlive: true,
+        shop: []
       }
     },
     mounted() {
       this.food = JSON.parse(localStorage.getItem('food')).title;
       Vue.axios.get('https://elm.cangdu.org/shopping/v2/restaurant/category', null).then((res) => {
-        this.img = res.data;
-        console.log(res.data);
+        this.img = res.data.slice(1);
+        this.country = res.data.splice(0, 1);
+        console.log(this.img)
+      }).catch((error) => {
+        console.log(error);
+      })
+      let obj = JSON.parse(localStorage.getItem("city"))
+      let url = 'https://elm.cangdu.org/shopping/restaurants?latitude=' + obj.latitude + '&longitude=' + obj.longitude + '&order_by=' + this.$store.getters.digit
+      Vue.axios.get(url, null).then((res) => {
+        this.shop = res.data;
       }).catch((error) => {
         console.log(error);
       })
@@ -226,8 +217,122 @@
         this.smallRank = false;
         this.small = false;
       },
-      select(e) {
-        console.log(e);
+      change(index) {
+        this.changeA = index;
+      },
+      retu() {
+        this.small = false;
+      },
+      // 智能排序
+      aptitude() {
+        this.variate = true;
+        this.variate1 = false;
+        this.variate2 = false;
+        this.variate3 = false;
+        this.variate4 = false;
+        this.variate5 = false;
+        this.smallRank = false;
+        let obj = JSON.parse(localStorage.getItem("city"))
+        let url = 'https://elm.cangdu.org/shopping/restaurants?latitude=' + obj.latitude + '&longitude=' + obj.longitude + '&order_by=4'
+        Vue.axios.get(url, null).then((res) => {
+          this.shop = res.data;
+        }).catch((error) => {
+          console.log(error);
+        })
+      },
+      // 距离最近
+      distance() {
+        this.variate1 = true;
+        this.variate = false;
+        this.variate2 = false;
+        this.variate3 = false;
+        this.variate4 = false;
+        this.variate5 = false;
+        this.smallRank = false;
+        let obj = JSON.parse(localStorage.getItem("city"))
+        let url = 'https://elm.cangdu.org/shopping/restaurants?latitude=' + obj.latitude + '&longitude=' + obj.longitude + '&order_by=5'
+        Vue.axios.get(url, null).then((res) => {
+          this.shop = res.data;
+        }).catch((error) => {
+          console.log(error);
+        })
+      },
+      // 销量最高
+      volume() {
+        this.variate2 = true;
+        this.variate1 = false;
+        this.variate = false;
+        this.variate3 = false;
+        this.variate4 = false;
+        this.variate5 = false;
+        this.smallRank = false;
+        let obj = JSON.parse(localStorage.getItem("city"))
+        let url = 'https://elm.cangdu.org/shopping/restaurants?latitude=' + obj.latitude + '&longitude=' + obj.longitude + '&order_by=6'
+        Vue.axios.get(url, null).then((res) => {
+          this.shop = res.data;
+        }).catch((error) => {
+          console.log(error);
+        })
+      },
+      // 起送价最低
+      minimum() {
+        this.variate1 = false;
+        this.variate2 = false;
+        this.variate = false;
+        this.variate4 = false;
+        this.variate5 = false;
+        this.variate3 = true;
+        this.smallRank = false;
+        let obj = JSON.parse(localStorage.getItem("city"))
+        let url = 'https://elm.cangdu.org/shopping/restaurants?latitude=' + obj.latitude + '&longitude=' + obj.longitude + '&order_by=1'
+        Vue.axios.get(url, null).then((res) => {
+          this.shop = res.data;
+        }).catch((error) => {
+          console.log(error);
+        })
+      },
+      // 配送速度最快
+      speed() {
+        this.variate1 = false;
+        this.variate2 = false;
+        this.variate3 = false;
+        this.variate = false;
+        this.variate5 = false;
+        this.variate4 = true;
+        this.smallRank = false;
+        let obj = JSON.parse(localStorage.getItem("city"))
+        let url = 'https://elm.cangdu.org/shopping/restaurants?latitude=' + obj.latitude + '&longitude=' + obj.longitude + '&order_by=2'
+        Vue.axios.get(url, null).then((res) => {
+          this.shop = res.data;
+        }).catch((error) => {
+          console.log(error);
+        })
+      },
+      // 评分最高
+      grade() {
+        this.variate1 = false;
+        this.variate2 = false;
+        this.variate3 = false;
+        this.variate4 = false;
+        this.variate = false;
+        this.variate5 = true;
+        this.smallRank = false;
+        let obj = JSON.parse(localStorage.getItem("city"))
+        let url = 'https://elm.cangdu.org/shopping/restaurants?latitude=' + obj.latitude + '&longitude=' + obj.longitude + '&order_by=3'
+        Vue.axios.get(url, null).then((res) => {
+          this.shop = res.data;
+        }).catch((error) => {
+          console.log(error);
+        })
+      },
+      reload() {
+        this.isRouterAlive = false
+        this.$nextTick(() => (this.isRouterAlive = true))
+      }
+    },
+    provide() {
+      return {
+        reload:this.reload
       }
     }
   }
@@ -283,7 +388,7 @@
   }
   .all {
     width: 100%;
-    height: 4.3rem;
+    height: 3.9rem;
   }
   .part {
     width: 100%;
@@ -306,7 +411,15 @@
     display: inline-block;
     border-bottom: 0.01rem solid gray;
     margin-left: 0.1rem;
+  }
+  .p>span {
     font-size: 0.16rem;
+  }
+  .p>i {
+    font-size: 0.25rem;
+    color: #008de1;
+    float: right;
+    margin-right: 0.2rem;
   }
   .each {
     height: 0.6rem;
@@ -341,42 +454,16 @@
     float: left;
   }
   .you {
-    width: 50%;
+    width: 48%;
     height: 100%;
     float: right;
+    overflow: scroll;
   }
+  .you::-webkit-scrollbar {display:none}
   .zuo>li {
     width: 100%;
-    height: 0.48rem;
     display: flex;
     justify-content: space-between;
-  }
-  .zuo>li>p {
-    display: inline-block;
-    font-size: 0.15rem;
-  }
-  .num {
-    display: inline-block;
-    width: 0.4rem;
-    height: 0.2rem;
-    text-align: center;
-    line-height: 0.2rem;
-    background-color: #CCCCCC;
-    font-size: 0.14rem;
-    color: white;
-    border-radius: 0.1rem;
-  }
-  .up {
-    margin-left: 0.1rem;
-  }
-  .jiantouR {
-    font-size: 0.12rem;
-  }
-  .tubiao {
-    font-size: 0.18rem;
-  }
-  .up1 {
-    margin-right: 0.1rem;
   }
   .own {
     width: 28%;
@@ -406,7 +493,151 @@
     margin-left: 0.1rem;
     font-size: 0.16rem;
   }
-
+.img1 {
+  width: 0.2rem;
+}
+  .p1 {
+    text-align: center;
+    padding: 0.1rem 0 0 0.15rem;
+  }
+  .p1>span {
+    font-size: 0.14rem;
+  }
+  .p2 {
+    padding: 0.08rem 0.15rem 0 0;
+  }
+  .span1 {
+    display: inline-block;
+    width: 0.3rem;
+    height: 0.2rem;
+    font-size: 0.12rem;
+    background-color: #CCCCCC;
+    border-radius: 0.1rem;
+    text-align: center;
+    line-height: 0.2rem;
+  }
+  .p2>i {
+    font-size: 0.13rem;
+    margin-left: 0.02rem;
+  }
+  .color {
+    background-color: white;
+  }
+  .font {
+    margin-left: 0.1rem;
+    margin-bottom: 0;
+    width: 96%;
+    height: 0.4rem;
+    line-height: 0.4rem;
+    border-bottom: 0.01rem solid gray;
+  }
+  .fon {
+    font-size: 0.15rem;
+  }
+  .figure {
+    display: inline-block;
+    font-size: 0.15rem;
+    float: right;
+    margin-right: 0.2rem;
+  }
+  .color1 {
+    color: #008de1;
+  }
+  .picture {
+    width: 0.8rem;
+    margin-left: 0.1rem;
+  }
+  .board {
+    background-color: yellow;
+    color: black;
+    font-size: 0.15rem;
+    position: absolute;
+    top: 0.25rem;
+    left: 1rem;
+  }
+  .result {
+    font-size: 0.15rem;
+    font-weight: 900;
+    position: absolute;
+    top: 0.25rem;
+    left: 1.4rem;
+  }
+  .mouth {
+    position: absolute;
+    font-size: 0.1rem;
+    left: 1.75rem;
+    top: 0.59rem;
+  }
+  .moneny {
+    position: absolute;
+    font-size: 0.12rem;
+    top: 0.85rem;
+    left: 1rem;
+  }
+  .div1 {
+    width: 0.5rem;
+    display: flex;
+    justify-content: space-between;
+    position: absolute;
+    top: 0.2rem;
+    right: 0.05rem;
+  }
+  .p1 {
+    font-size: 0.12rem;
+    padding: 0.01rem;
+    margin-left: 0.01rem;
+    border: 0.01rem solid lightgrey;
+  }
+  .give {
+    text-align: center;
+    font-size: 0.12rem;
+    width: 0.52rem;
+    height: 0.2rem;
+    line-height: 0.2rem;
+    background-color: #008de1;
+    color: white;
+    position: absolute;
+    top: 0.5rem;
+    right: 0.47rem;
+  }
+  .clocklike {
+    text-align: center;
+    font-size: 0.12rem;
+    width: 0.4rem;
+    height: 0.2rem;
+    line-height: 0.2rem;
+    color: lightskyblue;
+    border: 0.01rem solid lightskyblue;
+    position: absolute;
+    top: 0.5rem;
+    right: 0.05rem;
+  }
+  .time > span {
+    font-size: 0.12rem;
+  }
+  .time {
+    position: absolute;
+    top: 0.82rem;
+    right: 0.06rem;
+  }
+</style>
+<style>
+  .el-rate__icon, .el-icon-star-on {
+    font-size: 0.02rem;
+  }
+  .el-rate__item {
+    width: 0.1rem;
+  }
+  .el-rate {
+    position: absolute;
+    top: 0.6rem;
+    left: 1rem;
+  }
+  .el-rate__text {
+    position: absolute;
+    left: 0.55rem;
+    font-size: 0.1rem;
+  }
 </style>
 
 
