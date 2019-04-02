@@ -6,10 +6,22 @@
         <span>我的</span>
       </div>
 
-      <div class="info">
+      <div class="info" @click="register" v-if="have">
         <i class="touxiang">&#xe668;</i>
         <div class="SignIn">
           <span id="s1">登录/注册</span>
+          <br>
+          <span>
+            <i class="phone">&#xe6cf;</i>
+            暂无绑定手机号
+          </span>
+        </div>
+        <i class="jiantouR enter">&#xe74c;</i>
+      </div>
+      <div class="info" @click="account" v-if="!have">
+        <img :src="picture" alt="" class="picture">
+        <div class="SignIn">
+          <span style="font-size: 0.2rem;font-weight: 600">{{name}}</span>
           <br>
           <span>
             <i class="phone">&#xe6cf;</i>
@@ -83,6 +95,13 @@
 <script>
     export default {
         name: "Head",
+        data(){
+          return{
+            have:true,
+            name: '',
+            picture: ''
+          }
+        },
         methods: {
           serve() {
             this.$router.push({name: 'serve'})
@@ -110,8 +129,24 @@
           },
           MyDiscounts(){
             this.$router.push({name: 'MyDiscounts'})
+          },
+          register() {
+            this.$router.push({path: '/login'})
+          },
+          account() {
+            this.$router.push({name: 'myInfo'})
           }
+        },
+      mounted() {
+        if(JSON.parse(localStorage.getItem("enter")) == '') {
+          this.have = true;
+        } else {
+          let obj = JSON.parse(localStorage.getItem("enter"));
+          this.name = obj.username;
+          this.picture = 'https://elm.cangdu.org/img/' + obj.avatar;
+          this.have = false;
         }
+      }
     }
 </script>
 
@@ -260,4 +295,11 @@
   .elm{
     color: blue;
   }
+.picture {
+  width: 0.6rem;
+  float: left;
+  border-radius: 50%;
+  margin: 0.1rem 0 0 0.1rem;
+}
+
 </style>
