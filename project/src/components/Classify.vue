@@ -148,7 +148,7 @@
         <span class="mouth">月售{{pro.recent_order_num}}单</span>
         <span class="moneny">¥{{pro.float_minimum_order_amount}}起送 / 配送费约¥{{pro.float_delivery_fee}}</span>
         <div class="div1">
-          <p v-for="mon in pro.supports" class="p1">{{mon.icon_name}}</p>
+          <p v-for="mon in pro.supports" class="p3">{{mon.icon_name}}</p>
         </div>
         <p class="give">{{pro.delivery_mode.text}}</p>
         <p class="clocklike">{{(pro.supports)[1].name}}</p>
@@ -193,6 +193,7 @@
       let obj = JSON.parse(localStorage.getItem("city"))
       let url = 'https://elm.cangdu.org/shopping/restaurants?latitude=' + obj.latitude + '&longitude=' + obj.longitude + '&order_by=' + this.$store.getters.digit
       Vue.axios.get(url, null).then((res) => {
+        console.log(res.data);
         this.shop = res.data;
       }).catch((error) => {
         console.log(error);
@@ -582,7 +583,7 @@
     top: 0.2rem;
     right: 0.05rem;
   }
-  .p1 {
+  .p3 {
     font-size: 0.12rem;
     padding: 0.01rem;
     margin-left: 0.01rem;
