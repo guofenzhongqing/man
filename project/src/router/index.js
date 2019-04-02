@@ -48,6 +48,17 @@ import VipExplain from '../components/mine/vip/VipExplain'
 import Invoice from '../components/mine/vip/Invoice'
 import ExchangeVip from '../components/mine/vip/ExchangeVip'
 import BuyVip from '../components/mine/vip/BuyVip'
+import MyInfo from '../components/mine/information/MyInfo'
+import Username from '../components/mine/information/Username'
+import Compile from '../components/mine/information/Compile'
+import NewSite from '../components/mine/information/NewSite'
+import Grabble from '../components/mine/information/Grabble'
+import MyDiscounts from '../components/mine/MyDiscounts'
+import RedPacketQ from '../components/mine/RedPacket/RedPacketQ'
+import HistoricalRed from '../components/mine/RedPacket/HistoricalRed'
+import DH_Red from '../components/mine/RedPacket/DH_Red'
+import MyRecommend from '../components/mine/RedPacket/MyRecommend'
+import VoucherQ from '../components/mine/RedPacket/VoucherQ'
 
 export default new Router({
   routes: [
@@ -63,6 +74,11 @@ export default new Router({
         {path: 'myOrder', component: MyOrder, name: 'myOrder'},
         {path: 'head', component: Head},
       ]},
+    {path: '/myInfo', component: MyInfo, name: 'myInfo'},
+    {path: '/username', component: Username, name: 'username'},
+    {path: '/compile', component: Compile, name: 'compile'},
+    {path: '/newSite', component: NewSite, name: 'newSite'},
+    {path: '/grabble', component: Grabble, name: 'grabble'},
     {path: '/integralMall', component: IntegralMall, name: 'integralMall'},
     {path: '/vipCard', component: VipCard, name: 'vipCard'},
     {path: '/downLoad', component: DownLoad, name: 'downLoad'},
@@ -98,6 +114,12 @@ export default new Router({
     {path: '/Invoice', component: Invoice, name: 'Invoice'},
     {path: '/ExchangeVip', component: ExchangeVip, name: 'ExchangeVip'},
     {path: '/BuyVip', component: BuyVip, name: 'BuyVip'},
+    {path: '/MyDiscounts', component: MyDiscounts, name: 'MyDiscounts'},
+    {path: '/RedPacketQ', component: RedPacketQ, name: 'RedPacketQ'},
+    {path: '/HistoricalRed', component: HistoricalRed, name: 'HistoricalRed'},
+    {path: '/MyRecommend', component: MyRecommend, name: 'MyRecommend'},
+    {path: '/DH_Red', component: DH_Red, name: 'DH_Red'},
+    {path: '/VoucherQ', component: VoucherQ, name: 'VoucherQ'},
 
   ]
 })

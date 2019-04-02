@@ -19,22 +19,36 @@ Vue.config.productionTip = false
 const store = new vuex.Store({
   state: {
     arr: [],
+    array: []
   },
   getters: {},
   mutations: {
+    // 存的搜索城市的历史
     history(state, payload) {
       state.arr.push(payload);
       localStorage.setItem("history", JSON.stringify(state.arr));
     },
+    // 存储城市的对象
     toCity(state, payload) {
      localStorage.setItem("city", JSON.stringify(payload));
     },
+    // 搜索商铺的历史
     foodstuff(satte, payload) {
       localStorage.setItem("food", JSON.stringify(payload));
     },
-    enter(statr, payload) {
+    // 存的用户名
+    message(statr, payload) {
       localStorage.setItem("enter", JSON.stringify(payload));
+    },
+    // 存储城市的id
+    cityId(state, payload) {
+      localStorage.setItem("id", payload);
+    },
+    // 存储送货地址
+    delivery(state, payload) {
+       localStorage.setItem("location", JSON.stringify(payload));
     }
+
   },
   actions: {},
   modules: {}
