@@ -59,6 +59,9 @@ import HistoricalRed from '../components/mine/RedPacket/HistoricalRed'
 import DH_Red from '../components/mine/RedPacket/DH_Red'
 import MyRecommend from '../components/mine/RedPacket/MyRecommend'
 import VoucherQ from '../components/mine/RedPacket/VoucherQ'
+import Commodity from '../components/Commodity'
+import Store from '../components/Store'
+import Evaluation from '../components/Evaluation'
 
 export default new Router({
   routes: [
@@ -84,6 +87,11 @@ export default new Router({
     {path: '/downLoad', component: DownLoad, name: 'downLoad'},
     {path: '/serve', component: Serve, name: 'serve'},
     {path: '/classify', component: Classify, name: 'classify'},
+    {path: '/store', component: Store, name: 'store', children: [
+        {path: '/', redirect: 'commodity'},
+        {path: 'commodity', component: Commodity, name: 'commodity'},
+        {path: 'evaluation', component: Evaluation, name: 'evaluation'}
+      ]},
     {path: '/hot1', component: hot1, name: 'hot1'},
     {path: '/hot2', component: hot2, name: 'hot2'},
     {path: '/hot3', component: hot3, name: 'hot3'},

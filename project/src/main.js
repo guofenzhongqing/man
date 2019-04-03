@@ -19,7 +19,8 @@ Vue.config.productionTip = false
 const store = new vuex.Store({
   state: {
     arr: [],
-    array: []
+    array: [],
+    history: []
   },
   getters: {},
   mutations: {
@@ -47,8 +48,16 @@ const store = new vuex.Store({
     // 存储送货地址
     delivery(state, payload) {
        localStorage.setItem("location", JSON.stringify(payload));
+    },
+    // 存储商铺历史
+    shopping(state, payload) {
+      state.history.push(payload)
+      localStorage.setItem("shop", JSON.stringify(state.history));
+    },
+    // 存储商品信息
+    information(state, payload) {
+      localStorage.setItem("storeObj" ,JSON.stringify(payload));
     }
-
   },
   actions: {},
   modules: {}
