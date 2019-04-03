@@ -124,8 +124,8 @@
 <script>
 import Better from 'better-scroll'
 import Vue from 'vue'
-import XBT from "./XBT";
-import '../../../node_modules/animate.css'
+import XBT from "./shopcar/XBT";
+import '../../node_modules/animate.css'
     export default {
         name: "Commodity",
       components: {XBT},
@@ -401,6 +401,7 @@ p, ul{
   height: 100%;
   display: flex;
   overflow: hidden;
+  margin-bottom: 0.5rem;
 }
 .aside{
   width: 25%;
