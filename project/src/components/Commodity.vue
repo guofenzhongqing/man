@@ -7,6 +7,7 @@
             <p>
               {{item.name}}
             </p>
+            <span v-if="item.mynum" class="rednum2">{{item.mynum}}</span>
           </li>
         </ul>
       </div>
@@ -38,15 +39,17 @@
                     <p class="price">
                       <span>￥{{item.specfoods.length > 0 ? item.specfoods[0].price : ''}} 起</span>
                       <span>
-                        <span class="glyphicon glyphicon-minus-sign" aria-hidden="true" v-if="item.mynum" @click="removecar(item)"></span>
+                        <transition name="less">
+                          <span class="glyphicon glyphicon-minus-sign" aria-hidden="true" v-if="item.mynum" @click="removecar(item)"></span>
+                        </transition>
+
                         <span v-if="item.mynum">{{item.mynum}}</span>
-                      <button class="btn" v-if="item.specfoods.length > 1" @click="showAlert(item)">选规格</button>
+                      <button class="btn" v-if="item.specfoods.length > 1" @click="showAlert(item, it)">选规格</button>
                       <span class="glyphicon glyphicon-plus-sign" aria-hidden="true" v-else @click="addGoods(item)"></span>
                       </span>
                     </p>
                   </div>
                 </div>
-
               </li>
             </ul>
           </div>
@@ -55,21 +58,45 @@
     </div>
     <!--底部购物栏-->
     <div class="foot">
-      <div class="footLeft">
-        <div class="shopCar">
-          <i class="iconfont" :class="{changeClo: mycar.length>0}">&#xe653;</i>
-          <div v-if="mycar.length" class="rednum">{{mycarshopnum}}</div>
-        </div>
+      <div v-if="isShowShopCar && mycar.length" class="footHidden">
         <div>
-          <p>￥{{mycarshoppic}}</p>
-          <p>配送费￥{{shopinfo.float_delivery_fee}}</p>
+          <p class="firstLine">
+            <span>购物车</span>
+            <span @click="clearShopCar">
+              <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+              <span>清空</span>
+            </span>
+          </p>
+          <p class="secondLine" v-for="item in mycar">
+            <span style="width: 2rem;">{{item.shop.name}}</span>
+            <span style="color: red;">￥20</span>
+            <span>
+              <span class="glyphicon glyphicon-minus-sign" aria-hidden="true" @click="removecar(item.shop)"></span>
+              <span>{{item.num}}</span>
+              <span class="glyphicon glyphicon-plus-sign" aria-hidden="true" @click="addGoods(item.shop)"></span>
+            </span>
+          </p>
         </div>
       </div>
-      <div class="footRight" :class="{changeBgc: shoppicbig==1}">
-        <span v-if="shoppicbig==3">￥{{this.shopinfo.float_minimum_order_amount}}起送</span>
-        <span v-if="shoppicbig==2">还差￥{{this.shopinfo.float_minimum_order_amount-mycarshoppic}}起送</span>
-        <span v-if="shoppicbig==1">去结算</span>
+
+      <div class="foot2">
+        <div class="footLeft">
+          <div :class="{shopCar:true, animated:true,}" @click="isShowShopCar = !isShowShopCar">
+            <i class="iconfont" :class="{changeClo: mycar.length>0}">&#xe653;</i>
+            <div v-if="mycar.length" class="rednum">{{mycarshopnum}}</div>
+          </div>
+          <div>
+            <p>￥{{mycarshoppic}}</p>
+            <p>配送费￥{{shopinfo.float_delivery_fee}}</p>
+          </div>
+        </div>
+        <div class="footRight" :class="{changeBgc: shoppicbig==1}">
+          <span v-if="shoppicbig==3">￥{{this.shopinfo.float_minimum_order_amount}}起送</span>
+          <span v-if="shoppicbig==2">还差￥{{this.shopinfo.float_minimum_order_amount-mycarshoppic}}起送</span>
+          <span v-if="shoppicbig==1" @click="goToPay(mycar)">去结算</span>
+        </div>
       </div>
+
     </div>
     <!--弹框内容(规格多选)-->
     <mt-popup v-model="popupVisible">
@@ -79,15 +106,17 @@
           <span class="iconfont pull-right" @click="closeAlert">&#xe621;</span>
         </p>
         <p>规格</p>
-        <p>
-          <mt-button plain size="small" type="primary" v-for="v in alertMsg.specfoods">{{v.specs_name}}</mt-button>
-        </p>
-        <p>
-          <span>￥20</span>
-          <mt-button type="primary" size="small" class="pull-right">加入购物车</mt-button>
-        </p>
+          <p v-if="alertMsg.specfoods">
+            <mt-button plain size="small" :type="btnType1" @click="chooseFoodBtn1">{{alertMsg.specfoods[0].specs_name}}</mt-button>
+            <mt-button plain size="small" :type="btnType2" v-if="alertMsg.specfoods.length>1" @click="chooseFoodBtn2">{{alertMsg.specfoods[1].specs_name}}</mt-button>
+          </p>
+          <p v-if="alertMsg.specfoods">
+            <span>￥{{alertMsg.specfoods[0].price}}</span>
+            <mt-button type="primary" size="small" class="pull-right" @click="addGoods(alertMsg)">加入购物车</mt-button>
+          </p>
       </div>
     </mt-popup>
+    <XBT v-if="animation"></XBT>
   </section>
 
 </template>
@@ -95,8 +124,11 @@
 <script>
 import Better from 'better-scroll'
 import Vue from 'vue'
+import XBT from "./XBT";
+import '../../../node_modules/animate.css'
     export default {
         name: "Commodity",
+      components: {XBT},
       data () {
         return {
           actli: 0,
@@ -115,13 +147,21 @@ import Vue from 'vue'
           goodNums:'',// 商品数量
           shopinfo:JSON.parse(localStorage.getItem('storeObj')),//店铺信息
           popupVisible:false,// 规格弹出框是否显示
-          alertMsg:{}
+          alertMsg:{},
+          alertFoodMsg:{},
+          foodId:'',
+          animation:true,
+          btnType1:'primary',
+          btnType2:'default',
+          isShowShopCar:false,
         }
       },
       created(){
+        this.animation = true;
           // 获取商品信息
         if (localStorage.getItem('storeObj') !== null){
           Vue.axios.get('https://elm.cangdu.org/shopping/v2/menu?restaurant_id='+ JSON.parse(localStorage.getItem('storeObj')).id, null).then(res => {
+            this.animation = false;
             this.goods = res.data;
           })
         }
@@ -139,15 +179,26 @@ import Vue from 'vue'
       },
       methods: {
           // 选择规格的点击事件
-        showAlert(d){
+        showAlert(j, v){
           this.popupVisible = true;
-          this.alertMsg = d;
+          this.alertMsg = j;
+          this.alertFoodMsg = v;
 
+        },
+        // 选择多规格商品
+        chooseFoodBtn1(){
+          this.btnType1 = 'primary';
+          this.btnType2 = 'default'
+        },
+        chooseFoodBtn2(){
+          this.btnType1 = 'default';
+          this.btnType2 = 'primary'
         },
         //点击关闭规格弹框
         closeAlert(){
           this.popupVisible = false;
         },
+        // 点击出现购物车栏
         change (index) {
           this.flag = false;
           this.actli = index;
@@ -163,6 +214,7 @@ import Vue from 'vue'
         },
         //添加到购物车
         addGoods(e){
+          this.popupVisible = false;
           if (localStorage.getItem("mycar") != null){
             let carArr = JSON.parse(localStorage.getItem("mycar"));
             let addOk = true;
@@ -187,7 +239,7 @@ import Vue from 'vue'
           }
         },
         // 删除商品
-        removecar:function(e){
+        removecar(e){
           for(var i=0;i<this.mycar.length;i++){
             if(this.mycar[i].shop.specfoods[0]._id==e.specfoods[0]._id){
               this.mycar[i].num==1?this.mycar.splice(i,1):(this.mycar[i].num=this.mycar[i].num-1);
@@ -195,6 +247,17 @@ import Vue from 'vue'
             }
           }
           localStorage.setItem("mycar",JSON.stringify(this.mycar));
+        },
+        // 清空购物车
+        clearShopCar(){
+          this.isShowShopCar = !this.isShowShopCar;
+          this.mycar = [];
+          localStorage.setItem("mycar",JSON.stringify(this.mycar));
+        },
+        // 去往付款页面
+        goToPay(d){
+          this.$store.state.shopCar = d;
+          this.$router.push({name:'car'});
         }
       },
       mounted () {
@@ -250,7 +313,7 @@ import Vue from 'vue'
             for(var i=0;i<this.mycar.length;i++){
               num+=(this.mycar[i].shop.specfoods[0].price*this.mycar[i].num);
             }
-          };
+          }
           return num;
         },
         //判断商家起送价与目前购物车价格
@@ -286,16 +349,44 @@ import Vue from 'vue'
           }
           return this.goods
         },
-        chooseMore(){
-          // this.goods.map((j, v) => {
-          //   console.log(j)
-          // })
-        }
+
       }
     }
 </script>
 
 <style scoped>
+  .less-enter-active, .less--leave-active{
+    transition: opacity 0.5s;
+  }
+  .less-enter, .less-leave-to{
+    opacity: 0;
+  }
+  .footHidden{
+    width: 100%;
+    margin-bottom: 0.5rem;
+    z-index: 1000;
+  }
+  .footHidden>div{
+    width: 100%;
+    background-color: white;
+    color: gray;
+    }
+
+  .firstLine{
+    width: 100%;
+    height: 0.35rem;
+    line-height: 0.35rem;
+    display: flex;
+    justify-content: space-between;
+    background-color: darkgrey;
+  }
+  .secondLine{
+    width: 100%;
+    height: 0.35rem;
+    line-height: 0.35rem;
+    display: flex;
+    justify-content: space-between;
+  }
 section{
   width: 100%;
   height: 100%;
@@ -460,6 +551,9 @@ p, ul{
   }
 .foot{
   width: 100%;
+}
+.foot2{
+  width: 100%;
   height: 0.5rem;
   color: white;
   display: flex;
@@ -472,6 +566,7 @@ p, ul{
   background-color: black;
   display: flex;
   font-size: 0.12rem;
+  z-index: 10000 !important;
 }
 .footLeft > div+div{
   position: absolute;
@@ -483,6 +578,7 @@ p, ul{
   text-align: center;
   line-height: 0.5rem;
   font-size: 0.16rem;
+  z-index: 10000 !important;
 }
 .shopCar{
   width: 0.5rem;
@@ -503,6 +599,19 @@ p, ul{
   text-align:center;
   line-height:0.18rem;
   font-size:0.12rem;
+}
+.rednum2{
+  position: absolute;
+  top:0px;
+  right:0px;
+  border-radius:50%;
+  background-color:red;
+  color:white;
+  height:15px;
+  width:15px;
+  text-align:center;
+  line-height:15px;
+  font-size:12px;
 }
 .shopCar > .iconfont{
   text-align: center;
@@ -531,26 +640,26 @@ p, ul{
     font-size: 0.3rem;
     margin-right: 0.1rem;
   }
-.alertDiv>p:nth-child(2){
+.alertDiv p:nth-child(2){
   margin-left: 0.1rem;
 }
-.alertDiv>p:nth-child(3) button{
+.alertDiv p:nth-child(3) button{
   margin: 0.1rem 0.1rem;
   line-height: 0.31rem;
   font-size: 0.12rem;
 }
-.alertDiv>p:nth-child(4){
+.alertDiv p:nth-child(4){
   background-color: lightgray;
   padding: 0.1rem 0;
 }
-.alertDiv>p:nth-child(4) button{
+.alertDiv p:nth-child(4) button{
   font-size: 0.12rem;
   width: 1rem;
   height: 0.25rem;
   line-height: 0.25rem;
   margin-right: 0.1rem;
 }
-.alertDiv>p:nth-child(4) span{
+.alertDiv p:nth-child(4) span{
   color: red;
   font-size: 0.16rem;
 }
