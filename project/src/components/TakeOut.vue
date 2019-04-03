@@ -27,7 +27,7 @@
             <i class="jifen" style="font-size: 0.15rem">&#xe607;</i>
             <span style="font-size: 0.15rem">附近商家</span>
           </div>
-        <div v-for="pro in shopping" style="position: relative;padding:0.2rem 0;border-bottom: 0.01rem solid lightgrey">
+        <div v-for="pro in shopping" style="position: relative;padding:0.2rem 0;border-bottom: 0.01rem solid lightgrey" @click="specific(pro)">
           <img :src="'https://elm.cangdu.org/img/'+pro.image_path" alt="" class="picture">
           <span class="board">品牌</span>
           <span class="result">{{pro.name}}</span>
@@ -69,6 +69,10 @@ import Vue from 'vue'
         clickInto(p) {
           this.$store.commit('foodstuff', p);
           this.$router.push({name: 'classify'})
+        },
+        specific(p) {
+          this.$router.push({path: '/store'});
+          this.$store.commit('information', p);
         }
       },
         mounted() {

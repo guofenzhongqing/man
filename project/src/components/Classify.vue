@@ -25,7 +25,7 @@
             <p style="font-size: 0.14rem;padding: 0.1rem 0 0 0.15rem">{{pro.name}}</p>
             <p style="width: 0.3rem;height: 0.2rem;font-size: 0.12rem;background-color: #CCCCCC;border-radius: 0.1rem;text-align: center;line-height: 0.2rem;margin: 0.11rem 0.25rem 0 0">{{pro.count}}</p>
           </li>
-          <li v-for="(item, index) in img" @click="change(index)" :class="{color : changeA == index}">
+          <li v-for="(item, index) in img" @click="change(index)" :class="{color1 : changeA == index}">
             <p class="p1">
               <img :src="item.image_url.slice(-4).endsWith('png')===true ? 'https://fuss10.elemecdn.com/'+item.image_url+'.png' : 'https://fuss10.elemecdn.com/'+item.image_url+'.jpeg'" alt="" v-if="item.image_url === '' ? false : true" class="img1">
               <i class="shangjia" v-if="item.image_url === '' ? true : false" style="color: #2A5E99;font-size: 0.2rem">&#xe611;</i>
@@ -39,9 +39,9 @@
         </div>
           <div class="you">
             <li v-for="(pro,index) in img" v-if="changeA == index">
-              <p v-for="zi in pro.sub_categories.slice(1)" class="font" @click="spread(zi.id)">
-                <span class="fon">{{zi.name}}</span>
-                <span class="figure">{{zi.count}}</span>
+              <p v-for="(zi,founc) in pro.sub_categories.slice(1)" class="font" @click="hue(founc, index, zi.id, zi.name)">
+                <span class="fon" :class="{color : changeA == abc && changeB == founc}">{{zi.name}}</span>
+                <span class="figure" :class="{color : changeA == abc && changeB == founc}">{{zi.count}}</span>
               </p>
             </li>
           </div>
@@ -51,42 +51,42 @@
       <ul class="part equal" v-if="smallRank">
         <div class="each" @click="aptitude">
           <i class="paixu i" style="color: #68A3D5">&#xe65b;</i>
-          <p class="p" :class="{color1 : variate}">
+          <p class="p" :class="{color : variate}">
             <span>智能排序</span>
           <i class="duihao" v-if="variate">&#xe630;</i>
           </p>
         </div>
         <div class="each" @click="distance">
           <i class="juli i" style="color: #68A3D5">&#xe603;</i>
-          <p class="p" :class="{color1 : variate1}">
+          <p class="p" :class="{color : variate1}">
             <span>距离最近</span>
             <i class="duihao" v-if="variate1">&#xe630;</i>
           </p>
         </div>
         <div class="each" @click="volume">
           <i class="xiaoliang i" style="color: #F49393">&#xe67f;</i>
-          <p class="p" :class="{color1 : variate2}">
+          <p class="p" :class="{color : variate2}">
             <span>销量最高</span>
             <i class="duihao" v-if="variate2">&#xe630;</i>
           </p>
         </div>
         <div class="each" @click="minimum">
           <i class="qisongjia i" style="color: #F4DE96">&#xe602;</i>
-          <p class="p" :class="{color1 : variate3}">
+          <p class="p" :class="{color : variate3}">
             <span>起送价最低</span>
             <i class="duihao" v-if="variate3">&#xe630;</i>
           </p>
         </div>
         <div class="each" @click="speed">
           <i class="peisong i" style="color: #68A3D5">&#xe686;</i>
-          <p class="p" :class="{color1 : variate4}">
+          <p class="p" :class="{color : variate4}">
             <span>配送速度最快</span>
             <i class="duihao" v-if="variate4">&#xe630;</i>
           </p>
         </div>
         <div class="each" @click="grade">
           <i class="pingfen i" style="color: #F3C683">&#xe60a;</i>
-          <p class="p" :class="{color1 : variate5}">
+          <p class="p" :class="{color : variate5}">
             <span>评分最高</span>
             <i class="duihao" v-if="variate5">&#xe630;</i>
           </p>
@@ -96,45 +96,52 @@
       <transition name="button">
         <ul class="button equal" v-if="smallScreen">
           <li style="font-size: 0.15rem;margin: 0.1rem 0 0.1rem 0.15rem;">配送方式</li>
-          <li style="width: 1.3rem;height: 0.35rem;line-height: 0.35rem;border: 0.01rem solid lightgray;margin: 0 0 0.1rem 0.15rem">
-            <i class="fengniao" style="color: #5BB3E0;font-size: 0.16rem;margin-left: 0.1rem">&#xe631;</i>
-            <span style="font-size: 0.16rem;font-weight: 600">蜂鸟专送</span>
+          <li style="width: 1.3rem;height: 0.35rem;line-height: 0.35rem;border: 0.01rem solid lightgray;margin: 0 0 0.1rem 0.15rem" @click="choice">
+            <i class="fengniao" style="color: #5BB3E0;font-size: 0.16rem;margin-left: 0.1rem" v-if="pair">&#xe631;</i>
+            <i class="duihao" style="color: #008de1;font-size: 0.2rem;margin-left: 0.1rem" v-if="!pair">&#xe630;</i>
+            <span style="font-size: 0.16rem;font-weight: 600" :class="{color: !pair}">蜂鸟专送</span>
           </li>
           <li style="font-size: 0.16rem;font-weight: 600;margin: 0.1rem 0 0.1rem 0.15rem">商家属性(可以多选)</li>
           <li style="width: 100%;overflow: hidden">
-            <p class="own">
-              <i class="pin" style="color: #C5EBF7">&#xe600;</i>
-              <span>品牌商家</span>
+            <p class="own" @click="choice1">
+              <i class="pin" style="color: #C5EBF7" v-if="pair1">&#xe600;</i>
+              <i class="duihao" style="color: #008de1;font-size: 0.2rem" v-if="!pair1">&#xe630;</i>
+              <span :class="{color: !pair1}">品牌商家</span>
             </p>
-            <p class="own">
-              <i class="bao" style="color: #C5C5C5">&#xe609;</i>
-              <span>外卖保</span>
+            <p class="own" @click="choice2">
+              <i class="bao" style="color: #C5C5C5" v-if="pair2">&#xe609;</i>
+              <i class="duihao" style="color: #008de1;font-size: 0.2rem" v-if="!pair2">&#xe630;</i>
+              <span :class="{color: !pair2}">外卖保</span>
             </p>
-            <p class="own">
-              <i class="zhun" style="color: #86C1FF">&#xe701;</i>
-              <span>准时达</span>
+            <p class="own" @click="choice3">
+              <i class="zhun" style="color: #86C1FF" v-if="pair3">&#xe701;</i>
+              <i class="duihao" style="color: #008de1;font-size: 0.2rem" v-if="!pair3">&#xe630;</i>
+              <span :class="{color: !pair3}">准时达</span>
             </p>
-            <p class="own">
-              <i class="xin" style="color: #EC974E">&#xe6b0;</i>
-              <span>新店</span>
+            <p class="own" @click="choice4">
+              <i class="xin" style="color: #EC974E" v-if="pair4">&#xe6b0;</i>
+              <i class="duihao" style="color: #008de1;font-size: 0.2rem" v-if="!pair4">&#xe630;</i>
+              <span :class="{color: !pair4}">新店</span>
             </p>
-            <p class="own">
-              <i class="fu" style="color: #FFB899">&#xe649;</i>
-              <span>在线支付</span>
+            <p class="own" @click="choice5">
+              <i class="fu" style="color: #FFB899" v-if="pair5">&#xe649;</i>
+              <i class="duihao" style="color: #008de1;font-size: 0.2rem" v-if="!pair5">&#xe630;</i>
+              <span :class="{color: !pair5}">在线支付</span>
             </p>
-            <p class="own">
-              <i class="piao" style="color: #DEDEDE">&#xe670;</i>
-              <span>开发票</span>
+            <p class="own" @click="choice6">
+              <i class="piao" style="color: #DEDEDE" v-if="pair6">&#xe670;</i>
+              <i class="duihao" style="color: #008de1;font-size: 0.2rem" v-if="!pair6">&#xe630;</i>
+              <span :class="{color: !pair6}">开发票</span>
             </p>
           </li>
           <li style="width: 90%;margin-left: 0.15rem;margin-top: 0.1rem;">
-            <button class="dele">清空</button>
-            <button class="ente">确定</button>
+            <button class="dele" @click="empty">清空</button>
+            <button class="ente">确定<span v-if="count === 0 ? false :true" style="font-size: 0.18rem">({{count}})</span></button>
           </li>
         </ul>
       </transition>
     <div class="below">
-      <div v-for="pro in shop" style="position: relative;padding:0.2rem 0;border-bottom: 0.01rem solid lightgrey">
+      <div v-for="pro in shop" style="position: relative;padding:0.2rem 0;border-bottom: 0.01rem solid lightgrey" @click="specific(pro)">
         <img :src="'https://elm.cangdu.org/img/'+pro.image_path" alt="" class="picture">
         <span class="board">品牌</span>
         <span class="result">{{pro.name}}</span>
@@ -150,8 +157,8 @@
         <div class="div1">
           <p v-for="mon in pro.supports" class="p3">{{mon.icon_name}}</p>
         </div>
-        <p class="give">{{pro.delivery_mode.text}}</p>
-        <p class="clocklike">{{(pro.supports)[1].name}}</p>
+        <p class="give">{{JSON.stringify(pro.delivery_mode) == "{}" ?  pro.delivery_mode.text: '蜂鸟专送'}}</p>
+        <p class="clocklike">{{JSON.stringify(pro.supports[1]) == "{}" ? pro.supports[1].name : '准时达'}}</p>
         <div class="time"><span>{{pro.distance}}</span>/<span style="color: #008de1">{{pro.order_lead_time}}</span></div>
     </div>
     </div>
@@ -171,27 +178,36 @@
         img: [],
         country: [],
         changeA: -1,
+        changeB: -1,
         variate: false,
         variate1: false,
         variate2: false,
         variate3: false,
         variate4: false,
         variate5: false,
-        isRouterAlive: true,
-        shop: []
+        shop: [],
+        abc: '',
+        pair: true,
+        pair1: true,
+        pair2: true,
+        pair3: true,
+        pair4: true,
+        pair5: true,
+        pair6: true,
+        count: ''
       }
     },
     mounted() {
       this.food = JSON.parse(localStorage.getItem('food')).title;
+      this.bread = this.food;
       Vue.axios.get('https://elm.cangdu.org/shopping/v2/restaurant/category', null).then((res) => {
         this.img = res.data.slice(1);
         this.country = res.data.splice(0, 1);
-        console.log(this.img)
       }).catch((error) => {
         console.log(error);
       })
       let obj = JSON.parse(localStorage.getItem("city"))
-      let url = 'https://elm.cangdu.org/shopping/restaurants?latitude=' + obj.latitude + '&longitude=' + obj.longitude + '&order_by=' + this.$store.getters.digit
+      let url = 'https://elm.cangdu.org/shopping/restaurants?latitude=' + obj.latitude + '&longitude=' + obj.longitude
       Vue.axios.get(url, null).then((res) => {
         console.log(res.data);
         this.shop = res.data;
@@ -223,6 +239,7 @@
       },
       retu() {
         this.small = false;
+        this.bread = '分类'
       },
       // 智能排序
       aptitude() {
@@ -326,14 +343,88 @@
           console.log(error);
         })
       },
-      reload() {
-        this.isRouterAlive = false
-        this.$nextTick(() => (this.isRouterAlive = true))
-      }
-    },
-    provide() {
-      return {
-        reload:this.reload
+      hue(p, r, go, name) {
+        this.changeB = p;
+        this.abc = r;
+        this.small = false;
+        this.food = name;
+        let obj = JSON.parse(localStorage.getItem("city"))
+        let url = 'https://elm.cangdu.org/shopping/restaurants?latitude=' + obj.latitude + '&longitude=' + obj.longitude + '&restaurant_category_ids[]='+go
+        Vue.axios.get(url, null).then((res) => {
+          this.shop = res.data;
+        }).catch((error) => {
+          console.log(error);
+        })
+      },
+      choice() {
+        this.pair = !this.pair;
+        if (!this.pair) {
+          this.count++;
+        } else {
+          this.count--;
+        }
+      },
+      choice1() {
+        this.pair1 = !this.pair1;
+        if (!this.pair1) {
+          this.count++;
+        } else {
+          this.count--;
+        }
+      },
+      choice2() {
+        this.pair2 = !this.pair2;
+        if (!this.pair2) {
+          this.count++;
+        } else {
+          this.count--;
+        }
+      },
+      choice3() {
+        this.pair3 = !this.pair3;
+        if (!this.pair3) {
+          this.count++;
+        } else {
+          this.count--;
+        }
+      },
+      choice4() {
+        this.pair4 = !this.pair4;
+        if (!this.pair4) {
+          this.count++;
+        } else {
+          this.count--;
+        }
+      },
+      choice5() {
+        this.pair5 = !this.pair5;
+        if (!this.pair5) {
+          this.count++;
+        } else {
+          this.count--;
+        }
+      },
+      choice6() {
+        this.pair6 = !this.pair6;
+        if (!this.pair6) {
+          this.count++;
+        } else {
+          this.count--;
+        }
+      },
+      empty() {
+        this.count = 0;
+        this.pair = true;
+        this.pair1 = true;
+        this.pair2 = true;
+        this.pair3 = true;
+        this.pair4 = true;
+        this.pair5 = true;
+        this.pair6 = true;
+      },
+      specific(p) {
+        this.$router.push({path: '/store'});
+        this.$store.commit('information', p);
       }
     }
   }
@@ -484,7 +575,7 @@
     height: 0.4rem;
     border-radius: 0.1rem;
     background-color: lightgray;
-    font-size: 0.16rem;
+    font-size: 0.18rem;
   }
   .ente {
     width: 45%;
@@ -492,7 +583,7 @@
     border-radius: 0.1rem;
     background-color: lightgreen;
     margin-left: 0.1rem;
-    font-size: 0.16rem;
+    font-size: 0.18rem;
   }
 .img1 {
   width: 0.2rem;
@@ -521,7 +612,7 @@
     font-size: 0.13rem;
     margin-left: 0.02rem;
   }
-  .color {
+  .color1 {
     background-color: white;
   }
   .font {
@@ -541,9 +632,6 @@
     float: right;
     margin-right: 0.2rem;
   }
-  .color1 {
-    color: #008de1;
-  }
   .picture {
     width: 0.8rem;
     margin-left: 0.1rem;
@@ -562,6 +650,10 @@
     position: absolute;
     top: 0.25rem;
     left: 1.4rem;
+    width: 1.3rem;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
   }
   .mouth {
     position: absolute;
