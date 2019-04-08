@@ -85,17 +85,17 @@ import Vue from 'vue'
           })
            let obj = JSON.parse(localStorage.getItem("city"))
           this.name = obj.name
-          if(JSON.parse(localStorage.getItem("enter")) == '') {
-            this.person = true;
-          } else {
-            this.person = false;
-          }
           let url = 'https://elm.cangdu.org/shopping/restaurants?latitude=' + obj.latitude + '&longitude=' + obj.longitude + '&order_by=' + this.$store.getters.digit
           Vue.axios.get(url, null).then((res) => {
             this.shopping = res.data;
           }).catch((error) => {
             console.log(error);
           })
+          if (JSON.parse(localStorage.getItem('success')) === null) {
+            this.person = true
+          } else {
+            this.person = false
+          }
         }
     }
 </script>

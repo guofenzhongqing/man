@@ -2,7 +2,8 @@
   <section>
     <div class="head navbar-fixed-top">
       <span class="left" @click="bounc">ele.me</span>
-      <span class="right" @click="login">登录 | 注册</span>
+      <span class="right" @click="login" v-if="person">登录 | 注册</span>
+      <span class="right mine" @click="takeOut" style="font-size: 0.25rem" v-if="!person">&#xe663;</span>
     </div>
     <nav class="nav2">
       <span class="span">当前定位城市:</span>
@@ -36,7 +37,8 @@
         city: '',
         array: [],
         letter: [],
-        id: ''
+        id: '',
+        person: true,
       }
     },
     mounted() {
@@ -60,6 +62,12 @@
       }).catch((error) => {
         console.log(error);
       })
+      if (JSON.parse(localStorage.getItem('success')) === null) {
+        this.person = true
+      } else {
+        this.person = false
+      }
+      console.log(JSON.parse(localStorage.getItem('success')))
     },
     methods: {
       getMsg() {
@@ -70,6 +78,9 @@
       },
       bounc() {
         this.$router.push({path: '/allCity'})
+      },
+      takeOut() {
+        this.$router.push({path: '/all/head'})
       }
     }
   }

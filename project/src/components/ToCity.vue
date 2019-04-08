@@ -11,16 +11,19 @@
       </div>
       <div class="history">
         <p style="margin: 0.05rem 0.1rem">搜索历史</p>
-          <div v-for="pro in message" class="message" @click="toCity(pro)" v-if="hide">
-            <p class="p1">{{pro.name}}</p>
-            <p class="p2">{{pro.address}}</p>
-          </div>
-          <p class="delete" @click="remove" v-if="hide">清空所有</p>
         </div>
-      <div v-for="message in array" class="message" @click="deposit(message)">
+      <div v-for="message in array" class="message" @click="deposit(message)" v-if="hide">
         <p class="p1">{{message.name}}</p>
         <p class="p2">{{message.address}}</p>
       </div>
+      <div  v-if="hid1">
+        <div v-for="pro in message" class="message" @click="toCity(pro)">
+          <p class="p1">{{pro.name}}</p>
+          <p class="p2">{{pro.address}}</p>
+        </div>
+        <p class="delete" @click="remove">清空所有</p>
+      </div>
+
     </section>
 </template>
 
@@ -32,7 +35,8 @@ import Vue from 'vue'
         return {
           name: '',
           round: '',
-          hide: true,
+          hide: false,
+          hid1: false,
           array: [],
           message: [],
         }
@@ -45,12 +49,11 @@ import Vue from 'vue'
           this.$router.push({path: '/allCity'})
         },
         site() {
-          // this.hiddd = 'false';
           if (this.round == '') {
             alert("输入内容不能为空");
           } else {
-            this.hide = false;
-            let url = 'https://elm.cangdu.org/v1/pois?city_id=' + this.$route.query.id+ '&keyword=' + this.round + '&type=search'
+            this.hide = true;
+            let url = 'https://elm.cangdu.org/v1/pois?city_id=' + this.$route.query.id + '&keyword=' + this.round + '&type=search'
             Vue.axios.get(url, null).then((res) => {
               this.array = res.data;
             }).catch((error) => {
@@ -58,14 +61,23 @@ import Vue from 'vue'
             })
           }
         },
-      deposit(m) {
-        this.$router.push({path: '/all'})
-        this.$store.commit('history', m)
-        this.$store.commit('toCity', m)
+        deposit(m) {
+          this.$router.push({path: '/all'})
+          this.$store.commit('toCity', m)
+          let comment = m
+          let list = JSON.parse(localStorage.getItem('records') || '[]')
+          list.unshift(comment)
+          let set = new Set(list)
+          localStorage.setItem('records', JSON.stringify(set))
       },
       remove() {
-        localStorage.clear();
         this.message.splice(0, this.message.length);
+        if (this.message.length != 0) {
+          this.hid1 = true
+        } else {
+          this.hid1 = false
+        }
+        localStorage.removeItem("records");
       },
       toCity(p) {
         this.$router.push({path: '/all'})
@@ -73,8 +85,16 @@ import Vue from 'vue'
       }
       },
       mounted() {
-       this.message = JSON.parse(localStorage.getItem("history"));
-       this.name = this.$route.query.name
+       this.name = this.$route.query.name;
+       this.$store.commit('cityId', this.$route.query.id);
+        if (JSON.parse(localStorage.getItem("records")) == "[]") {
+          this.hid1 = false;
+          this.hide = false
+        } else {
+          this.hid1 = true;
+          this.hide = false
+          this.message =  JSON.parse(localStorage.getItem("records"))
+        }
       }
     }
 </script>
@@ -125,14 +145,14 @@ import Vue from 'vue'
   }
   .message {
     width: 100%;
-    height: 1rem;
-    border-top: 0.02rem solid lightgrey;
+    height: 0.7rem;
+    border-bottom: 0.02rem solid lightgrey;
     padding-left: 0.1rem;
   }
   .p1 {
     font-size: 0.2rem;
     font-weight: 900;
-    margin-top: 0.2rem;
+    margin-top: 0.1rem;
   }
   .p2 {
     font-size: 0.15rem;
@@ -144,6 +164,6 @@ import Vue from 'vue'
     line-height: 0.5rem;
     text-align: center;
     font-size: 0.25rem;
-    border-top: 0.01rem solid lightgrey;
+    border-bottom: 0.02rem solid lightgrey;
   }
 </style>
