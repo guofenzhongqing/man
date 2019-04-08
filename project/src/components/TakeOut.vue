@@ -27,42 +27,55 @@
             <i class="jifen" style="font-size: 0.15rem">&#xe607;</i>
             <span style="font-size: 0.15rem">附近商家</span>
           </div>
-        <div v-for="pro in shopping" style="position: relative;padding:0.2rem 0;border-bottom: 0.01rem solid lightgrey" @click="specific(pro)">
-          <img :src="'https://elm.cangdu.org/img/'+pro.image_path" alt="" class="picture">
-          <span class="board">品牌</span>
-          <span class="result">{{pro.name}}</span>
-          <el-rate
-            v-model="pro.rating"
-            disabled
-            show-score
-            text-color="#ff9900"
-            score-template="{value}">
-          </el-rate>
-          <span class="mouth">月售{{pro.recent_order_num}}单</span>
-          <span class="moneny">¥{{pro.float_minimum_order_amount}}起送 / 配送费约¥{{pro.float_delivery_fee}}</span>
-          <div class="div1">
-            <p v-for="mon in pro.supports" class="p1">{{mon.icon_name}}</p>
+        <ul
+          v-infinite-scroll="loadMore"
+          infinite-scroll-disabled="loading"
+          infinite-scroll-distance="20">
+          <div v-for="pro in shopping" style="position: relative;padding:0.2rem 0;border-bottom: 0.01rem solid lightgrey" @click="specific(pro)">
+            <img :src="'https://elm.cangdu.org/img/'+pro.image_path" alt="" class="picture">
+            <span class="board">品牌</span>
+            <span class="result">{{pro.name}}</span>
+            <el-rate
+              v-model="pro.rating"
+              disabled
+              show-score
+              text-color="#ff9900"
+              score-template="{value}">
+            </el-rate>
+            <span class="mouth">月售{{pro.recent_order_num}}单</span>
+            <span class="moneny">¥{{pro.float_minimum_order_amount}}起送 / 配送费约¥{{pro.float_delivery_fee}}</span>
+            <div class="div1">
+              <p v-for="mon in pro.supports" class="p1">{{mon.icon_name}}</p>
+            </div>
+            <p class="give" v-if="pro.delivery_mode">{{pro.delivery_mode.text}}</p>
+            <p class="clocklike" v-if="pro.supports.length > 1 ? true : false">{{pro.supports[1].name}}</p>
+            <div class="time"><span>{{pro.distance}}</span>/<span style="color: #008de1">{{pro.order_lead_time}}</span></div>
           </div>
-          <p class="give">{{pro.delivery_mode.text}}</p>
-          <p class="clocklike">{{(pro.supports)[1].name}}</p>
-          <div class="time"><span>{{pro.distance}}</span>/<span style="color: #008de1">{{pro.order_lead_time}}</span></div>
-        </div>
+        </ul>
       </div>
+      <XBT v-if="cartoon"></XBT>
+      <GoTop></GoTop>
     </section>
 </template>
 
 <script>
 import Vue from 'vue'
+import XBT from "./shopcar/XBT";
+import GoTop from "./goTop";
     export default {
         name: "TakeOut",
-        data() {
+      components: {GoTop, XBT},
+      data() {
           return {
             array: [],
             arr:[],
             name: '',
             shop: [],
             person: true,
-            shopping: []
+            shopping: [],
+            num: 0,
+            loading: false,
+            cartoon: false
           }
         },
       methods: {
@@ -73,6 +86,24 @@ import Vue from 'vue'
         specific(p) {
           this.$router.push({path: '/store'});
           this.$store.commit('information', p);
+        },
+        loadMore() {
+          this.cartoon = true;
+          this.loading = true;
+          this.num += 20;
+          let obj = JSON.parse(localStorage.getItem("city"))
+          setTimeout(() => {
+            let url = 'https://elm.cangdu.org/shopping/restaurants?latitude=' + obj.latitude + '&longitude=' + obj.longitude + '&offset='+ this.num
+            Vue.axios.get(url, null).then((res) => {
+              for (let i = 0;i<res.data.length;i++) {
+                this.shopping.push(res.data[i]);
+              }
+              this.cartoon = false;
+            }).catch((error) => {
+              console.log(error);
+            })
+            this.loading = false;
+          }, 2500);
         }
       },
         mounted() {
@@ -84,9 +115,15 @@ import Vue from 'vue'
             console.log(error)
           })
            let obj = JSON.parse(localStorage.getItem("city"))
-          this.name = obj.name
-          let url = 'https://elm.cangdu.org/shopping/restaurants?latitude=' + obj.latitude + '&longitude=' + obj.longitude + '&order_by=' + this.$store.getters.digit
+          let url1 = 'https://elm.cangdu.org/v2/pois/' + obj.geohash
+            Vue.axios.get(url1, null).then((res) => {
+              this.name = res.data.name;
+            }).catch((error) => {
+              console.log(error);
+            })
+          let url = 'https://elm.cangdu.org/shopping/restaurants?latitude=' + obj.latitude + '&longitude=' + obj.longitude
           Vue.axios.get(url, null).then((res) => {
+            console.log(res.data)
             this.shopping = res.data;
           }).catch((error) => {
             console.log(error);
@@ -122,10 +159,11 @@ import Vue from 'vue'
     line-height: 0.6rem;
   }
   .ming {
-    width: 1.4rem;
+    width: 1.8rem;
     overflow:hidden;
     white-space:nowrap;
     text-overflow:ellipsis;
+    margin-left: 0.2rem;
   }
 .img1 {
   width: 0.6rem;
@@ -168,6 +206,10 @@ import Vue from 'vue'
     position: absolute;
     top: 0.25rem;
     left: 1.4rem;
+    width: 1.3rem;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
   }
   .mouth {
     position: absolute;
@@ -182,9 +224,6 @@ import Vue from 'vue'
     left: 1rem;
   }
   .div1 {
-    width: 0.5rem;
-    display: flex;
-    justify-content: space-between;
     position: absolute;
     top: 0.2rem;
     right: 0.05rem;
@@ -194,6 +233,7 @@ import Vue from 'vue'
     padding: 0.01rem;
     margin-left: 0.01rem;
     border: 0.01rem solid lightgrey;
+    float: left;
   }
   .give {
     text-align: center;

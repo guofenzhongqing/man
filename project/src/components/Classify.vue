@@ -25,7 +25,7 @@
             <p style="font-size: 0.14rem;padding: 0.1rem 0 0 0.15rem">{{pro.name}}</p>
             <p style="width: 0.3rem;height: 0.2rem;font-size: 0.12rem;background-color: #CCCCCC;border-radius: 0.1rem;text-align: center;line-height: 0.2rem;margin: 0.11rem 0.25rem 0 0">{{pro.count}}</p>
           </li>
-          <li v-for="(item, index) in img" @click="change(index)" :class="{color1 : changeA == index}">
+          <li v-for="(item, index) in img" @click="change(index)" :class="{color1 : changeA == index || JSON.stringify(item).indexOf(transfer) == -1 ? false : true}">
             <p class="p1">
               <img :src="item.image_url.slice(-4).endsWith('png')===true ? 'https://fuss10.elemecdn.com/'+item.image_url+'.png' : 'https://fuss10.elemecdn.com/'+item.image_url+'.jpeg'" alt="" v-if="item.image_url === '' ? false : true" class="img1">
               <i class="shangjia" v-if="item.image_url === '' ? true : false" style="color: #2A5E99;font-size: 0.2rem">&#xe611;</i>
@@ -38,7 +38,7 @@
           </li>
         </div>
           <div class="you">
-            <li v-for="(pro,index) in img" v-if="changeA == index">
+            <li v-for="(pro,index) in img" v-if="changeA == index || JSON.stringify(pro).indexOf(transfer) == -1 ? false : true">
               <p v-for="(zi,founc) in pro.sub_categories.slice(1)" class="font" @click="hue(founc, index, zi.id, zi.name)">
                 <span class="fon" :class="{color : changeA == abc && changeB == founc}">{{zi.name}}</span>
                 <span class="figure" :class="{color : changeA == abc && changeB == founc}">{{zi.count}}</span>
@@ -136,39 +136,49 @@
           </li>
           <li style="width: 90%;margin-left: 0.15rem;margin-top: 0.1rem;">
             <button class="dele" @click="empty">清空</button>
-            <button class="ente">确定<span v-if="count === 0 ? false :true" style="font-size: 0.18rem">({{count}})</span></button>
+            <button class="ente" @click="mark">确定<span v-if="count != 0 ? true :false" style="font-size: 0.18rem">({{count}})</span></button>
           </li>
         </ul>
       </transition>
     <div class="below">
-      <div v-for="pro in shop" style="position: relative;padding:0.2rem 0;border-bottom: 0.01rem solid lightgrey" @click="specific(pro)">
-        <img :src="'https://elm.cangdu.org/img/'+pro.image_path" alt="" class="picture">
-        <span class="board">品牌</span>
-        <span class="result">{{pro.name}}</span>
-        <el-rate
-          v-model="pro.rating"
-          disabled
-          show-score
-          text-color="#ff9900"
-          score-template="{value}">
-        </el-rate>
-        <span class="mouth">月售{{pro.recent_order_num}}单</span>
-        <span class="moneny">¥{{pro.float_minimum_order_amount}}起送 / 配送费约¥{{pro.float_delivery_fee}}</span>
-        <div class="div1">
-          <p v-for="mon in pro.supports" class="p3">{{mon.icon_name}}</p>
+      <ul
+        v-infinite-scroll="loadMore"
+        infinite-scroll-disabled="loading"
+        infinite-scroll-distance="20">
+        <div v-for="pro in shop" style="position: relative;padding:0.2rem 0;border-bottom: 0.01rem solid lightgrey" @click="specific(pro)">
+          <img :src="'https://elm.cangdu.org/img/'+pro.image_path" alt="" class="picture">
+          <span class="board">品牌</span>
+          <span class="result">{{pro.name}}</span>
+          <el-rate
+            v-model="pro.rating"
+            disabled
+            show-score
+            text-color="#ff9900"
+            score-template="{value}">
+          </el-rate>
+          <span class="mouth">月售{{pro.recent_order_num}}单</span>
+          <span class="moneny">¥{{pro.float_minimum_order_amount}}起送 / 配送费约¥{{pro.float_delivery_fee}}</span>
+          <div class="div1">
+            <p v-for="mon in pro.supports" class="p3">{{mon.icon_name}}</p>
+          </div>
+          <p class="give" v-if="pro.delivery_mode">{{pro.delivery_mode.text}}</p>
+          <p class="clocklike" v-if="pro.supports.length > 1 ? true : false">{{pro.supports[1].name}}</p>
+          <div class="time"><span>{{pro.distance}}</span>/<span style="color: #008de1">{{pro.order_lead_time}}</span></div>
         </div>
-        <p class="give">{{JSON.stringify(pro.delivery_mode) == "{}" ?  pro.delivery_mode.text: '蜂鸟专送'}}</p>
-        <p class="clocklike">{{JSON.stringify(pro.supports[1]) == "{}" ? pro.supports[1].name : '准时达'}}</p>
-        <div class="time"><span>{{pro.distance}}</span>/<span style="color: #008de1">{{pro.order_lead_time}}</span></div>
+      </ul>
     </div>
-    </div>
+    <XBT v-if="snow"></XBT>
+    <GoTop></GoTop>
   </section>
 </template>
 
 <script>
   import Vue from 'vue'
+  import XBT from "./shopcar/XBT";
+  import GoTop from "./goTop";
   export default {
     name: "Classify",
+    components: {GoTop, XBT},
     data() {
       return {
         food: '',
@@ -194,12 +204,19 @@
         pair4: true,
         pair5: true,
         pair6: true,
-        count: ''
+        count: '',
+        snow: true,
+        array: [],
+        loading: false,
+        obj:'https://elm.cangdu.org/shopping/restaurants?latitude=' + JSON.parse(localStorage.getItem("city")).latitude + '&longitude=' + JSON.parse(localStorage.getItem("city")).longitude,
+        alike: '',
+        num: 0,
+        transfer: ''
       }
     },
     mounted() {
       this.food = JSON.parse(localStorage.getItem('food')).title;
-      this.bread = this.food;
+      this.transfer = JSON.parse(localStorage.getItem('food')).title
       Vue.axios.get('https://elm.cangdu.org/shopping/v2/restaurant/category', null).then((res) => {
         this.img = res.data.slice(1);
         this.country = res.data.splice(0, 1);
@@ -211,9 +228,11 @@
       Vue.axios.get(url, null).then((res) => {
         console.log(res.data);
         this.shop = res.data;
+        this.snow = false;
       }).catch((error) => {
         console.log(error);
       })
+      this.alike = url;
     },
     methods: {
       getBack() {
@@ -250,13 +269,13 @@
         this.variate4 = false;
         this.variate5 = false;
         this.smallRank = false;
-        let obj = JSON.parse(localStorage.getItem("city"))
-        let url = 'https://elm.cangdu.org/shopping/restaurants?latitude=' + obj.latitude + '&longitude=' + obj.longitude + '&order_by=4'
+        let url = this.obj + '&order_by=4'
         Vue.axios.get(url, null).then((res) => {
           this.shop = res.data;
         }).catch((error) => {
           console.log(error);
         })
+        this.alike = url
       },
       // 距离最近
       distance() {
@@ -267,13 +286,13 @@
         this.variate4 = false;
         this.variate5 = false;
         this.smallRank = false;
-        let obj = JSON.parse(localStorage.getItem("city"))
-        let url = 'https://elm.cangdu.org/shopping/restaurants?latitude=' + obj.latitude + '&longitude=' + obj.longitude + '&order_by=5'
+        let url =this.obj + '&order_by=5'
         Vue.axios.get(url, null).then((res) => {
           this.shop = res.data;
         }).catch((error) => {
           console.log(error);
         })
+        this.alike = url
       },
       // 销量最高
       volume() {
@@ -284,13 +303,13 @@
         this.variate4 = false;
         this.variate5 = false;
         this.smallRank = false;
-        let obj = JSON.parse(localStorage.getItem("city"))
-        let url = 'https://elm.cangdu.org/shopping/restaurants?latitude=' + obj.latitude + '&longitude=' + obj.longitude + '&order_by=6'
+        let url = this.obj + '&order_by=6'
         Vue.axios.get(url, null).then((res) => {
           this.shop = res.data;
         }).catch((error) => {
           console.log(error);
         })
+        this.alike = url
       },
       // 起送价最低
       minimum() {
@@ -301,13 +320,13 @@
         this.variate5 = false;
         this.variate3 = true;
         this.smallRank = false;
-        let obj = JSON.parse(localStorage.getItem("city"))
-        let url = 'https://elm.cangdu.org/shopping/restaurants?latitude=' + obj.latitude + '&longitude=' + obj.longitude + '&order_by=1'
+        let url = this.obj + '&order_by=1'
         Vue.axios.get(url, null).then((res) => {
           this.shop = res.data;
         }).catch((error) => {
           console.log(error);
         })
+        this.alike = url
       },
       // 配送速度最快
       speed() {
@@ -318,13 +337,13 @@
         this.variate5 = false;
         this.variate4 = true;
         this.smallRank = false;
-        let obj = JSON.parse(localStorage.getItem("city"))
-        let url = 'https://elm.cangdu.org/shopping/restaurants?latitude=' + obj.latitude + '&longitude=' + obj.longitude + '&order_by=2'
+        let url = this.obj + '&order_by=2'
         Vue.axios.get(url, null).then((res) => {
           this.shop = res.data;
         }).catch((error) => {
           console.log(error);
         })
+        this.alike = url
       },
       // 评分最高
       grade() {
@@ -335,40 +354,46 @@
         this.variate = false;
         this.variate5 = true;
         this.smallRank = false;
-        let obj = JSON.parse(localStorage.getItem("city"))
-        let url = 'https://elm.cangdu.org/shopping/restaurants?latitude=' + obj.latitude + '&longitude=' + obj.longitude + '&order_by=3'
+        let url = this.obj + '&order_by=3'
         Vue.axios.get(url, null).then((res) => {
           this.shop = res.data;
         }).catch((error) => {
           console.log(error);
         })
+        this.alike = url
       },
       hue(p, r, go, name) {
+        this.snow = true;
         this.changeB = p;
         this.abc = r;
         this.small = false;
         this.food = name;
-        let obj = JSON.parse(localStorage.getItem("city"))
-        let url = 'https://elm.cangdu.org/shopping/restaurants?latitude=' + obj.latitude + '&longitude=' + obj.longitude + '&restaurant_category_ids[]='+go
+        let url = this.obj + '&restaurant_category_ids[]='+go
         Vue.axios.get(url, null).then((res) => {
           this.shop = res.data;
+          this.snow = false;
         }).catch((error) => {
           console.log(error);
         })
+        this.alike = url
       },
       choice() {
         this.pair = !this.pair;
         if (!this.pair) {
           this.count++;
+          this.array.push(1)
         } else {
           this.count--;
+          this.array.splice($.inArray(1,this.array), 1);
         }
       },
       choice1() {
         this.pair1 = !this.pair1;
         if (!this.pair1) {
           this.count++;
+          this.array.push(8);
         } else {
+          this.array.splice($.inArray(8,this.array), 1);
           this.count--;
         }
       },
@@ -376,7 +401,9 @@
         this.pair2 = !this.pair2;
         if (!this.pair2) {
           this.count++;
+          this.array.push(7);
         } else {
+          this.array.splice($.inArray(7,this.array), 1);
           this.count--;
         }
       },
@@ -384,7 +411,9 @@
         this.pair3 = !this.pair3;
         if (!this.pair3) {
           this.count++;
+          this.array.push(9)
         } else {
+          this.array.splice($.inArray(9,this.array), 1);
           this.count--;
         }
       },
@@ -392,7 +421,9 @@
         this.pair4 = !this.pair4;
         if (!this.pair4) {
           this.count++;
+          this.array.push(5)
         } else {
+          this.array.splice($.inArray(5,this.array), 1);
           this.count--;
         }
       },
@@ -400,7 +431,9 @@
         this.pair5 = !this.pair5;
         if (!this.pair5) {
           this.count++;
+          this.array.push(3)
         } else {
+          this.array.splice($.inArray(3,this.array), 1);
           this.count--;
         }
       },
@@ -408,7 +441,9 @@
         this.pair6 = !this.pair6;
         if (!this.pair6) {
           this.count++;
+          this.array.push(4)
         } else {
+          this.array.splice($.inArray(4,this.array), 1);
           this.count--;
         }
       },
@@ -425,6 +460,65 @@
       specific(p) {
         this.$router.push({path: '/store'});
         this.$store.commit('information', p);
+      },
+      mark() {
+        this.smallScreen = false;
+        let url = this.obj
+        for (let i = 0;i < this.array.length;i++) {
+          switch (this.array[i]) {
+            case 1 : {
+              url = url + '&delivery_mode[]=1'
+              break;
+            }
+            case 8 : {
+              url = url + '&support_ids[]=8'
+              break;
+            }
+            case 7 : {
+              url = url + '&support_ids[]=7'
+              break;
+            }
+            case 9 : {
+              url = url + '&support_ids[]=9'
+              break;
+            }
+            case 5 : {
+              url = url + '&support_ids[]=5'
+              break;
+            }
+            case 3 : {
+              url = url + '&support_ids[]=3'
+              break;
+            }
+            case 4 : {
+              url = url + '&support_ids[]=4'
+              break;
+            }
+          }
+        }
+        Vue.axios.get(url, null).then((res) => {
+          this.shop = res.data;
+        }).catch((error) => {
+          console.log(error);
+        })
+        this.alike = url
+      },
+      loadMore() {
+        this.snow = true;
+        this.loading = true;
+        this.num += 20;
+        setTimeout(() => {
+          let url = this.alike + '&offset='+ this.num
+          Vue.axios.get(url, null).then((res) => {
+            for (let i = 0;i<res.data.length;i++) {
+              this.shop.push(res.data[i]);
+            }
+            this.snow = false;
+          }).catch((error) => {
+            console.log(error);
+          })
+          this.loading = false;
+        }, 2500);
       }
     }
   }
@@ -668,9 +762,6 @@
     left: 1rem;
   }
   .div1 {
-    width: 0.5rem;
-    display: flex;
-    justify-content: space-between;
     position: absolute;
     top: 0.2rem;
     right: 0.05rem;
@@ -680,6 +771,7 @@
     padding: 0.01rem;
     margin-left: 0.01rem;
     border: 0.01rem solid lightgrey;
+    float: left;
   }
   .give {
     text-align: center;
