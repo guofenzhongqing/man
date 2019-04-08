@@ -85,7 +85,9 @@
                     break;
                   }
                   default: {
-                    this.$store.commit('enter', res.data);
+                    console.log(res.data);
+                    this.$router.push({path: '/allCity'})
+                    localStorage.setItem("success",JSON.stringify(res.data));
                     break;
                   }
                 }
