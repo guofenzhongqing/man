@@ -67,8 +67,12 @@ import Vue from 'vue'
           let comment = m
           let list = JSON.parse(localStorage.getItem('records') || '[]')
           list.unshift(comment)
-          let set = new Set(list)
-          localStorage.setItem('records', JSON.stringify(set))
+          let hash = {};
+          list = list.reduce(function(item, next) {
+            hash[next.name] ? '' : hash[next.name] = true && item.unshift(next);
+            return item
+          }, [])
+          localStorage.setItem('records', JSON.stringify(list))
       },
       remove() {
         this.message.splice(0, this.message.length);
@@ -87,12 +91,10 @@ import Vue from 'vue'
       mounted() {
        this.name = this.$route.query.name;
        this.$store.commit('cityId', this.$route.query.id);
-        if (JSON.parse(localStorage.getItem("records")) == "[]") {
+        if (JSON.parse(localStorage.getItem("records")) === null) {
           this.hid1 = false;
-          this.hide = false
         } else {
           this.hid1 = true;
-          this.hide = false
           this.message =  JSON.parse(localStorage.getItem("records"))
         }
       }
