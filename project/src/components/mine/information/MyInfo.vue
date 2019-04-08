@@ -71,7 +71,7 @@
           }
         },
         mounted() {
-          let obj = JSON.parse(localStorage.getItem("enter"))
+          let obj = JSON.parse(localStorage.getItem("success"))
           this.picture = 'https://elm.cangdu.org/img/' + obj.avatar
           this.name = obj.username;
         },
@@ -103,7 +103,7 @@
         withdraw() {
           Vue.axios.get('https://elm.cangdu.org/v2/signout', null).then((res) => {
             if (res.data.message = '退出成功') {
-              this.$store.commit('secede', '退出成功');
+              localStorage.removeItem('success');
               this.$router.push({path: '/all/head'});
             }
           }).catch((error) => {

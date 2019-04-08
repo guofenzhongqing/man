@@ -6,7 +6,7 @@
         <span style="margin-right: 0.1rem;color: white;font-size: 0.18rem" @click="bianji">{{redact ? '编辑' : '完成'}}</span>
       </div>
       <ul>
-        <li v-for="(pro, index) in array" class="lb">
+        <li v-for="(pro, index) in array" class="lb" v-if="hide">
           <span>{{pro.address}}</span><br>
           <span>{{pro.phone}}</span>
           <i class="cuohao" @click="delet(index, pro.id)" v-if="!redact">&#xe632;</i>
@@ -26,7 +26,8 @@
       data() {
           return {
             array: [],
-            redact: true
+            redact: true,
+            hide: false
           }
       },
         methods: {
@@ -37,7 +38,8 @@
             this.$router.push({name: 'newSite'})
           },
           delet(p, id) {
-            let userid = JSON.parse(localStorage.getItem("enter")).id;
+            console.log(JSON.parse(localStorage.getItem("success")))
+            let userid = JSON.parse(localStorage.getItem("success")).id;
             let url = 'https://elm.cangdu.org/v1/users/'+ userid + '/addresses/'+id
             Vue.axios.delete(url, null).then((res) => {
               console.log(res)
@@ -53,7 +55,8 @@
           }
         },
       mounted() {
-          let userid = JSON.parse(localStorage.getItem("enter")).id;
+          this.hide = true;
+          let userid = JSON.parse(localStorage.getItem("success")).id;
           let url = 'https://elm.cangdu.org/v1/users/' + userid + '/addresses'
           Vue.axios.get(url, null).then((res) => {
             console.log(res.data);
