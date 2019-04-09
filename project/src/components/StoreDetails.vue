@@ -28,14 +28,14 @@
         </div>
       </div>
       <div class="check">
-        <i class="iconfont">&#xe6e2;</i>
+        <i class="pin">&#xe669;</i>
         <div>
           <p>监督检查结果: <span class="i">良好</span></p>
           <p>检查日期:</p>
         </div>
       </div>
       <div class="shopMsg">
-        <p>商家信息</p>
+        <p class="p1">商家信息</p>
         <p>{{storeMsg.name}}</p>
         <p>{{storeMsg.address}}</p>
         <p>营业时间: {{storeMsg.opening_hours[0]}}</p>
@@ -69,7 +69,7 @@
             history.go(-1)
           },
         goToShopSafe(){
-          this.$router.push({name:'safe'})
+          this.$router.push({name:'ShopSafe'})
         },
         // 显示营业执照
         showImg(){
@@ -188,7 +188,7 @@ section{
     line-height: 0.35rem;
     background-color: white;
   }
-.iconfont{
+.pin{
   font-family:"iconfont" !important;
   font-size:0.5rem;font-style:normal;
   -webkit-font-smoothing: antialiased;
@@ -235,5 +235,10 @@ section{
     position: absolute;
     left: 0;
     top: 20%;
+  }
+  .p1{
+    font-size: 0.23rem;
+    border-top: 0.05rem solid whitesmoke;
+    padding-top: 0.1rem;
   }
 </style>

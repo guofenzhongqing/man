@@ -1,121 +1,179 @@
 <template>
     <section>
       <div class="head navbar-fixed-top">
-      <i class="iconfont" @click="get">&#xe64b;</i>
+      <i class="jiantouL" @click="get">&#xe6bc;</i>
       <span>确定订单</span>
       <span class="nav">
-        <router-link :to="{name:'login'}">
-          <span>登录</span>|<span>注册</span>
+        <router-link :to="{name:'login'}" v-if="success">
+            <span style="color: white;">登录|</span><span style="color: white;">注册</span>
         </router-link>
-
-        </span>
+        <router-link :to="{path: 'all/head'}" v-if="!success">
+           <i class="touxiang" v-if="!success">&#xe663;</i>
+        </router-link>
+      </span>
     </div>
-      <div class="Address" :to="{}">
-        <router-link :to="{name:'car_address'}">
-          <div class="DZ">
-            <i class="iconfont2">&#xe607;</i>
-            <span>请添加一个收获地址</span>
-            <i class="iconfont1">&#xe643;</i>
+      <div class="Address">
+        <div @click="$router.push({name:'car_address'})">
+        <div class="DZ">
+          <i class="iconfont2">&#xe607;</i>
+          <div class="li" v-if="addressMsg">
+            <p class="name">
+              <span>{{addressMsg.name}}</span>
+              <span>{{addressMsg.sex == 2 ? '女士': '先生'}}</span>
+              <span>{{addressMsg.phone}}</span>
+            </p>
+            <p class="tag">
+              <span :class="{colorblue: addressMsg.tag=='学校', colorRed:addressMsg.tag == '家', colorGreen: addressMsg.tag== '公司'}">{{addressMsg.tag}}</span>
+              <span>{{addressMsg.address_detail}}</span>
+            </p>
           </div>
-        </router-link>
+        <span v-if="!addressMsg">请添加一个收获地址</span>
+        <i class="iconfont1">&#xe74c;</i>
+      </div>
         <div class="XHX">
           <span>_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ </span>
         </div>
       </div>
-
+      </div>
       <div class="time">
         <div class="col-xs-1"></div>
         <div class="col-xs-4">
           <span class="s1">送达时间</span>
         </div>
         <div class="col-xs-7">
-          <span>08.35</span>
+          <span>{{this.sendTime}}</span>
           <span>预计</span>
           <span>|</span>
           <span>尽快送达</span>
-          <p>蜂鸟配送</p>
+          <p>{{goods.delivery_mode.text}}</p>
         </div>
       </div>
 
       <div class="ZF" @click="block">
         <router-link class="col-xs-12" :to="{}">
-        <span>支付方式</span>
+        <span style="color: gray; font-size: 0.2rem">支付方式</span>
         <span class="ZX">
-          <span>在线支付</span>
-          <i class="iconfont1">&#xe643;</i>
+          <span style="color: gray;">在线支付</span>
+          <i class="pin" style="color: gray;">&#xe74c;</i>
         </span>
       </router-link>
         <router-link class="col-xs-12 col" :to="{}">
-          <span>红包</span>
+          <span style="color: gray;">红包</span>
           <span class="ZX">
-          <span>暂时只在饿了么 APP 中支持</span>
+          <span style="color: gray;">暂时只在饿了么 APP 中支持</span>
         </span>
         </router-link>
       </div>
 
       <div class="img">
-        <img src="" alt="">
-        <span>演示效果</span>
+        <img src="http + goods.image_path" class="img1" alt="">
+        <span>{{goods.name}}</span>
       </div>
 
-      <div class="XX">
+      <div class="XX" v-for="item in shopCar">
         <div class="col-xs-12">
-          <div class="col-xs-8">我问问-默认</div>
-          <div class="col-xs-2">✖1</div>
-          <div class="col-xs-2">￥20</div>
+          <div class="col-xs-8">{{item.shop.name}}</div>
+          <div class="col-xs-2" style="color: red;">✖{{item.num}}</div>
+          <div class="col-xs-2">￥{{item.shop.specfoods[0].price}}</div>
         </div>
         <div class="col-xs-12">
-          <span class="Sl">餐盒</span> <span class="Sr">￥36112.5</span>
+          <span class="Sl">餐盒</span> <span class="Sr">￥{{item.shop.specfoods[0].packing_fee}}</span>
         </div>
         <div class="col-xs-12">
-          <span class="Sl">配送费</span> <span class="Sr">￥4</span>
+          <span class="Sl">配送费</span> <span class="Sr">￥{{goods.float_delivery_fee}}</span>
+        </div>
+      </div>
+      <div>
+        <div class="col-xs-12">
+          <span class="Sl">订单￥{{mycarshoppic}}</span> <span class="Sr SS1">待支付</span>
         </div>
         <div class="col-xs-12">
-          <span class="Sl">订单￥36112.5</span> <span class="Sr SS1">待支付</span>
-        </div>
-        <div class="col-xs-12">
-          <span class="Sr SS1">￥36136.5</span>
+          <span class="Sr SS1">￥{{mycarshoppic}}</span>
         </div>
       </div>
 
       <div class="FQ">
         <router-link class="col-xs-12" :to="{name:'car_Order'}">
-          <span class="Sl">订单备注</span> <span class="Sr" v-for="item in this.$store.state.RemarksArr">{{item}},</span>
+          <span class="Sl">订单备注</span> <span class="Sr" v-for="item in remark">{{item}},</span>
           <i class="iconfont1">&#xe643;</i>
         </router-link>
         <router-link class="col-xs-12" :to="{name:'car_FQ'}">
-          <span class="Sl">发票抬头</span> <span class="Sr">不需要发票</span>
-          <i class="iconfont1">&#xe643;</i>
+          <span class="Sl">发票抬头</span>
+          <span class="Sr">不需要发票</span>
         </router-link>
       </div>
 
       <div class="foot col-xs-12">
-        <span class="Sl">待支付￥36112.5</span>  <span class="Sr btn">确定下单</span>
+        <span class="Sl">待支付￥{{mycarshoppic}}</span>  <span class="Sr btn" @click="payMoney">确定下单</span>
       </div>
        <transition name="lxh">
          <div class="none" v-if="sure">
            <div class="H">支付方式</div>
            <div class="col-xs-12 coll">
              <span>货到付款 (商家不支持货到付款)</span>
-             <i class="iconfont9">&#xe612;</i>
+             <i class="iconfont9">&#xe65c;</i>
            </div>
            <div class="col-xs-12 ">
              <span>在线支付</span>
-             <i class="iconfont10">&#xe612;</i>
+             <i class="iconfont10">&#xe65c;</i>
            </div>
          </div>
        </transition>
-
+      <!--<XBT v-if="animation"></XBT>-->
     </section>
 </template>
 
 <script>
+  import Vue from 'vue'
+  // import XBT from "../XBT";
     export default {
         name: "car",
+      // components:{XBT},
       data(){
           return {
-            sure:false
+            sure:false,
+            success:true,
+            userId:'',// 用户id
+            addressArr:[],//地址列表信息
+            shopCar:this.$store.state.shopCar,// 购物车信息
+            goods:JSON.parse(localStorage.getItem('storeObj')),// 店家信息
+            sendTime:'',// 送达时间
+            http: 'https://elm.cangdu.org/img/',
+            remark:[],//备注信息
+            isTrue2:false,
+            addressMsg:this.$store.state.address
           }
+      },
+      created(){
+        this.animation = true;
+        this.userId = JSON.parse(localStorage.getItem('success')).id
+        // 发起请求获取收货地址列表
+        Vue.axios.get('https://elm.cangdu.org/v1/users/'+ this.userId + '/addresses').then(res => {
+          this.animation = false;
+          this.addressArr = res.data
+        })
+        this.remark = this.$store.state.RemarksArr
+
+      },
+      mounted(){
+        console.log(this.userId)
+        // 判断送达时间
+        let d = new Date();
+        let h = d.getHours();// 小时
+        let m = d.getMinutes();// 分钟
+        let minutes = Number(m) + parseInt(this.goods.order_lead_time)
+        if (minutes >= 60){
+          minutes = minutes - 60;
+          h++;
+        }
+        this.sendTime = Number(h) + ':' + minutes;
+
+        // 判断是否登录
+        if (localStorage.getItem('success')){
+          this.isTrue2 = false
+        } else{
+          this.isTrue2 = true
+        }
       },
       methods:{
           get(){
@@ -123,12 +181,35 @@
           },
         block(){
         this.sure=!this.sure
+        },
+        payMoney(){
+          this.$router.push({name:'payment'});
         }
+      },
+      computed:{
+        //计算商品价格(商品只有一个种类)
+        mycarshoppic(){
+          var num=0;
+          if(this.shopCar.length){
+            for(var i=0;i<this.shopCar.length;i++){
+              num+=(this.shopCar[i].shop.specfoods[0].price*this.shopCar[i].num + this.shopCar[i].shop.specfoods[0].packing_fee + this.goods.float_delivery_fee);
+            }
+          }
+          return num;
+        },
       }
     }
 </script>
 
 <style scoped>
+  section {
+    width: 100%;
+    height: 100%;
+  }
+  .glyphicon-user{
+    color: white;
+    font-size: 0.25rem;
+  }
   .head{
     width: 100%;
     height: 0.4rem;
@@ -139,7 +220,7 @@
     text-align: center;
     overflow: hidden;
   }
-  .iconfont{
+  .jiantouL{
     font-family:"iconfont" !important;
     font-size:0.2rem;font-style:normal;
     -webkit-font-smoothing: antialiased;
@@ -173,8 +254,12 @@
     float: right;
   }
   .iconfont1{
+    float: right;
+    margin-right: 0.2rem;
+  }
+  .pin{
     font-family:"iconfont" !important;
-    font-size:0.2rem;font-style:normal;
+    font-size:0.18rem;font-style:normal;
     -webkit-font-smoothing: antialiased;
     -webkit-text-stroke-width: 0.2px;
     -moz-osx-font-smoothing: grayscale;
@@ -195,6 +280,7 @@
   .DZ{
     height: 0.5rem;
     line-height: 0.5rem;
+    padding-top: 0.12rem;
   }
   .XHX span{
     color: blueviolet;
@@ -206,7 +292,7 @@
   }
 .col-xs-1{
   height: 100%;
-  background-color: blue;
+  background-color: #008de1;
 }
   .col-xs-4{
     text-align: center;
@@ -217,14 +303,14 @@
     font-size: 0.22rem;
   }
   .col-xs-7 span{
-    color: blue;
+    color: #008de1;
     font-size: 0.18rem;
     float: right;
   }
   .col-xs-7 p{
     width: 0.7rem;
     height: 0.25rem;
-    background-color: blue;
+    background-color: #008de1;
     color: white;
     float: right;
     text-align: center;
@@ -282,7 +368,7 @@
     width: 100%;
     height: 0.4rem;
     background-color: black;
-    margin-top: 0.2rem;
+    /*margin-top: 0.2rem;*/
     position: fixed;
     bottom: 0;
   }
@@ -312,10 +398,51 @@
   .coll span{
     color: lightgray;
   }
+  .img1{
+    width: 0.4rem;
+    height: 0.4rem;
+    margin: 0 0.1rem;
+  }
   .lxh-enter-active,.lxh-leave-active{
     transition: opacity 1S;
   }
   .lxh-enter,.lxh-leave-to{
     opacity: 0;
+  }
+  .li{
+    width: 70%;
+  }
+  .name, .tag{
+    width: 75%;
+    margin: 0;
+    padding: 0;
+    font-size: 0.12rem;
+  }
+  .name span:nth-child(1){
+    font-size: 0.18rem;
+    font-weight: bold;
+  }
+  .tag span:nth-child(1){
+    color: white;
+    padding: 0.03rem;
+    border-radius: 0.03rem;
+  }
+  .tag span:nth-child(2){
+    color: gray;
+  }
+  .colorblue{
+    background-color: #3190E8;
+  }
+  .colorRed{
+    background-color: red;
+  }
+  .colorGreen{
+    background-color: rgb(92,184,92);
+  }
+  .touxiang{
+    float: right;
+    font-size: 0.2rem;
+    margin-right: 0.15rem;
+    color: white;
   }
 </style>

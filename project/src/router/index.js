@@ -62,6 +62,9 @@ import VoucherQ from '../components/mine/RedPacket/VoucherQ'
 import Commodity from '../components/Commodity'
 import Store from '../components/Store'
 import Evaluation from '../components/Evaluation'
+import StoreDetails from '../components/StoreDetails'
+import ShopSafe from '../components/ShopSafe'
+import car from '../components/shopcar/car'
 
 export default new Router({
   routes: [
@@ -128,6 +131,8 @@ export default new Router({
     {path: '/all/head/MyDiscounts/MyRecommend', component: MyRecommend, name: 'MyRecommend'},
     {path: '/all/head/MyDiscounts/DH_Red', component: DH_Red, name: 'DH_Red'},
     {path: '/all/head/MyDiscounts/VoucherQ', component: VoucherQ, name: 'VoucherQ'},
-
+    {path: '/StoreDetails', component: StoreDetails, name: 'StoreDetails'},
+    {path: '/ShopSafe', component: ShopSafe, name: 'ShopSafe'},
+    {path: '/car', component: car, name: 'car'},
   ]
 })

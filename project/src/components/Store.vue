@@ -3,8 +3,9 @@
     <!--头部-->
     <div class="header">
       <div class="shopMsg">
-        <div class="storeMassage">
+        <div class="storeMassage" @click="header">
           <div class="storeMassageChild">
+            <i class="pin" @click="getBack">&#xe6bc;</i>
             <img :src="'https://elm.cangdu.org/img/' + storeMsg.image_path" alt="">
             <div class="shopMsgRight">
               <p>{{storeMsg.name}}</p>
@@ -43,10 +44,9 @@
         </div>
       </div>
 
-
       <div class="popup-div2">商家公告</div>
       <span class="popup-span3">{{storeMsg.promotion_info}}</span>
-      <i class="iconfont" @click="conceal">&#xe6a9;</i>
+      <i class="cuohao" @click="conceal">&#xe64c;</i>
     </mt-popup>
 
     <!--导航栏-->
@@ -90,6 +90,9 @@
         // goToDetails(){
         //   this.$router.push({name: 'details'})
         // },
+        getBack() {
+          this.$router.go(-1);
+        },
         shade(){
           this.popupVisible = true
         },
@@ -107,6 +110,9 @@
           this.$router.push({name: 'evaluation'});
           this.isTrue = false;
           this.isTrue1 = true
+        },
+        header(){
+          this.$router.push({name: 'StoreDetails'})
         }
       }
     }
@@ -140,6 +146,9 @@
     width: 0.8rem;
     border: 0.01rem solid white;
     -webkit-border-radius: 0.2rem;
+    font-size: 0.14rem;
+    padding: 0.05rem;
+    margin-left: 0.4rem;
   }
   .popup-div2{
     font-size: 0.14rem;
@@ -168,12 +177,12 @@
   }
   .popup-span3{
     top: 3rem;
-    left: 0.2rem;
+    left: 0.58rem;
     position: absolute;
     padding: 0.01rem;
     border-radius: 0.05rem;
   }
-  .iconfont{
+  .cuohao{
     position: absolute;
     top: 5rem;
     left: 1.6rem;
@@ -269,5 +278,15 @@
   .navClass{
     color: blue;
     font-weight: bold;
+  }
+  .all{
+    margin-left: -0.5rem;
+  }
+  .storeMassageChild>i{
+    float: left;
+    color: white;
+    font-size: 0.3rem;
+    margin-top: -0.6rem;
+    margin-left: -0.15rem;
   }
 </style>

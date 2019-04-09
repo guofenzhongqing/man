@@ -38,7 +38,7 @@
       <div class="one">
         <img :src="it.avatar == '' ? 'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=1200085042,4250469493&fm=26&gp=0.jpg' : http+it.avatar+'.jpeg'">
         <span>{{it.username}}</span>
-        <span class="span1">{{it.rated_at}}</span> <br>
+        <span class="span1">{{it.rated_at}}</span>
         <span>{{it.time_spent_desc}}</span>
         <el-rate
           v-model="it.rating_star"
@@ -49,7 +49,7 @@
         </el-rate>
       </div>
         <div class="two">
-          <img v-for="it3 in it.item_ratings" :src="it3.image_hash.slice(-4).endsWith('png')===true?http+it3.image_hash+'.png':http+it3.image_hash+'.jpeg'">
+          <img v-for="it3 in it.item_ratings" :src="it3.image_hash.slice(-4).endsWith('png')===true?http+it3.image_hash+'.png':http+it3.image_hash+'.jpeg'" v-if="it3.image_hash==''? false : true"><br>
           <p v-for="it2 in it.item_ratings
 ">{{it2.food_name}}</p>
         </div>
@@ -155,11 +155,31 @@
   .style {
     background-color:red;
   }
+  .one{
+    margin-left: 0.5rem;
+  }
   .one img{
     width: 0.5rem;
+    margin-left: -0.5rem;
     border-radius: 50%;
+  }
+  .two{
+    margin-left: 0.5rem;
+    table-layot:fixed；
   }
   .two img{
     width: 0.6rem;
+  }
+  .two>p{
+    word-break:keep-all;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    width: 0.6rem;
+    border: 0.01rem solid gray;
+    border-radius: 0.03rem;
+    float: left;
+    margin-top: 0.08rem;
+    margin-right: 0.06rem;
   }
 </style>

@@ -81,8 +81,8 @@
 
       <div class="foot2">
         <div class="footLeft">
-          <div :class="{shopCar:true, animated:true,}" @click="isShowShopCar = !isShowShopCar">
-            <i class="iconfont" :class="{changeClo: mycar.length>0}">&#xe653;</i>
+          <div class="ddd" :class="{shopCar:true, animated:true,}" @click="isShowShopCar = !isShowShopCar">
+            <i class="pin" :class="{changeClo: mycar.length>0}">&#xe60c;</i>
             <div v-if="mycar.length" class="rednum">{{mycarshopnum}}</div>
           </div>
           <div>
@@ -365,6 +365,9 @@ import '../../node_modules/animate.css'
     width: 100%;
     margin-bottom: 0.5rem;
     z-index: 1000;
+    position: fixed;
+    bottom: 0;
+    left: 0;
   }
   .footHidden>div{
     width: 100%;
@@ -587,6 +590,13 @@ p, ul{
   border: #61686A solid 0.04rem;
   border-radius: 50%;
   transform: translate(0.15rem, -0.15rem);
+  background-color: black;
+  margin-top: 0.03rem;
+}
+.shopCar>i{
+  font-size: 0.3rem;
+  color: white;
+  margin-left: 0.03rem;
 }
 .rednum{
   position: absolute;

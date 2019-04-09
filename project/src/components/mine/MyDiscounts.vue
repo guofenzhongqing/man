@@ -51,7 +51,7 @@
     <!--商家代金券部分-->
     <div class="div5" v-if="!dis">
       <router-link :to="{name:'VoucherQ'}">
-        <i class="wenhao">&#xe610;</i>
+        <i class="duihao">&#xe610;</i>
         <span>商家代金券说明</span>
       </router-link>
       <img src="../../assets/img/voucher.png" alt="">

@@ -8,7 +8,7 @@
       <div class="foodSafe">
         <div class="food">食品监督安全公示</div>
         <div class="check">
-          <i class="iconfont">&#xe6e2;</i>
+          <i class="pin">&#xe669;</i>
           <div>
             <p>监督检查结果: <span class="i">良好</span></p>
             <p>检查日期:</p>
@@ -36,8 +36,8 @@
       <div class="details">
         <p>许可证书</p>
         <div>
-          <div><img :src="storeMsg.license.business_license_image == null ? '' : 'https://elm.cangdu.org/img/'+ storeMsg.license.business_license_image" class="img"></div>
-          <div><img :src="storeMsg.license.catering_service_license_image == null ? '' : 'https://elm.cangdu.org/img/'+ storeMsg.license.catering_service_license_image" alt="" class="img"></div>
+          <div><img src="../assets/img/54.jpg" class="img"></div>
+          <div><img src="../assets/img/55.jpg" alt="" class="img"></div>
         </div>
       </div>
     </section>
@@ -107,12 +107,13 @@
   .check>div{
     margin-left: 0.05rem;
   }
-  .iconfont{
+  .pin{
     font-family:"iconfont" !important;
     font-size:0.5rem;font-style:normal;
     -webkit-font-smoothing: antialiased;
     -webkit-text-stroke-width: 0.2px;
-    -moz-osx-font-smoothing: grayscale;}
+    -moz-osx-font-smoothing: grayscale;
+  }
   .foodSafe{
     width: 100%;
     padding-top: 0.5rem;
@@ -133,7 +134,9 @@
     width: 100%;
     height: 0.35rem;
     line-height: 0.35rem;
-    font-size: 0.16rem;
+    font-size: 0.2rem;
+    border-top: 0.03rem solid gray;
+    border-bottom: 0.01rem solid gray;
   }
   .details > p{
     font-size: 0.13rem;
