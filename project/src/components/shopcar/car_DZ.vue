@@ -1,7 +1,7 @@
 <template>
   <section>
     <div class="head">
-      <i class="iconfont" @click="get">&#xe64b;</i>
+      <i class="iconfont" @click="get">&#xe6bc;</i>
       <span>选择</span>
     </div>
     <div class="SS">
@@ -35,12 +35,12 @@
             if (this.DZ == ''){
               alert('请输入搜索地址')
             }else{
-              Vue.axios.get('https://elm.cangdu.org/v1/pois?city_id='+this.$store.state.cityID+'&keyword='+this.DZ+'&type=search').then((res)=>{
+              Vue.axios.get('https://elm.cangdu.org/v1/pois?city_id='+localStorage.getItem('id')+'&keyword='+this.DZ+'&type=search').then((res)=>{
                 console.log(res.data);
                 this.Arr=res.data;
               })
             }
-
+          console.log(localStorage.getItem('id'))
         },
         div1(i){
             window.history.go(-1);

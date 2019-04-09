@@ -1,41 +1,35 @@
 <template>
     <section>
       <div class="head">
-        <i class="iconfont" @click="get">&#xe64b;</i>
+        <i class="iconfont" @click="get">&#xe6bc;</i>
         <span>添加地址</span>
       </div>
-      <span>联系人</span>
-      <el-input v-model="name" placeholder="你的名字" class="input1" :class='{color:text}'></el-input>
-      <div class="sex">
-        <el-radio v-model="radio" label="1">先生</el-radio>
-        <el-radio v-model="radio" label="2">女士</el-radio>
+      <div>
+        <p>联系人</p>
+        <input type="text" placeholder="你的名字" style="margin-left: 0.15rem;border-bottom: 0.01rem solid lightgrey;" v-model="name">
+        <p style="margin-left: 1rem"  @click="sexM">
+          <i class="jiantouR" :class="{color: col}">&#xe65c;</i><span>先生</span>
+        </p>
+        <p  @click="sexW">
+          <i class="pin" :class="{color: !col}">&#xe65c;</i><span>女士</span>
+        </p>
       </div>
-      <div class="phone">
-        <span>联系电话</span>
-        <el-input v-model="phoneNum" placeholder="你的手机号" class="input2"></el-input>
-        <i class="iconfont1" @click="block">&#xe61c;</i>
-        <div class="none" v-if="sure">
-          <el-input v-model="phoneNum1" placeholder="备用电话" class="input3" ></el-input>
-        </div>
+      <div>
+        <p>联系电话</p>
+        <input type="text" placeholder="你的手机号" :class="{kuang: hide}" v-model="phoneNum">
+        <i class="jiantouR" style="font-size: 0.25rem;color: #008de1;" @click="hide=true">&#xe60e;</i>
+        <input type="text" placeholder="备选电话" style="margin-left: 1.05rem" v-if="hide" v-model="phoneNum1">
       </div>
-        <div class="SC">
-          <router-link :to="{name:'car_DZ'}">
-            <span>送餐地址</span>
-            <el-input v-model="foodAddress" placeholder="小区/写字楼/学校等" class="input2"></el-input>
-          </router-link>
-
+      <div>
+        <p>送餐地址</p>
+        <input type="text" placeholder="小区/写字楼/学校等" style=" border-bottom: 0.01rem solid lightgrey;" @click="tiao" v-model="foodAddress">
+        <input type="text" placeholder="详细地址(如门牌号等)" style="margin-left: 1.05rem" v-model="address">
       </div>
-      <el-input v-model="address" placeholder="详细地址(如门牌号等)" class="input4"></el-input>
-      <div class="foot">
-        <span>标签</span>
-        <el-input v-model="tag" placeholder="无/家/学校/公司" class="input5"></el-input>
+      <div>
+        <p>标签</p>
+        <input type="text" placeholder="无/家/学校/公司等" style="margin-left: 0.35rem" v-model="tag">
       </div>
-      <button class="btn btn-success" @click="addAddress">确定</button>
-      <mt-popup v-model="popupVisible" class="alert">
-        <div>
-          <p>{{alertMsg}}</p>
-        </div>
-      </mt-popup>
+        <button class="tijiao" @click="addAddress">提交</button>
     </section>
 </template>
 
@@ -50,14 +44,16 @@
             foodAddress: this.$store.state.nameOne,// 地址
             address:'',// 详细地址
             tag:'',// 标签
-            radio:'1',// 性别
+            radio:0,// 性别
             sure:false,
             text:'',
             color: '#767676',
             colorRed:'red',
             alertMsg:'',
             popupVisible:false,
-            userId:''// 用户ID
+            userId:'',// 用户ID
+            hide: false,
+            col: true
           }
       },
       methods:{
@@ -68,7 +64,7 @@
             this.sure=true
         },
         addAddress(){
-          this.userId = JSON.parse(localStorage.getItem('personObj')).id;
+          this.userId = JSON.parse(localStorage.getItem('success')).id;
             if (this.name == '' || this.phoneNum == '' ||this.phoneNum1 == '' || this.foodAddress == '' || this. address == '' || this.tag == ''){
               this.alertMsg = '请输入完整信息';
               this.popupVisible = true;
@@ -83,7 +79,7 @@
                   user_id:this.userId,
                   address: this.foodAddress,
                   address_detail: this.address,
-                  geohash: this.$store.state.city.geohash,
+                  geohash: JSON.parse(localStorage.getItem('city')).geohash,
                   name: this.name,
                   phone: this.phoneNum,
                   phone_bk: this.phoneNum1,
@@ -97,12 +93,27 @@
                 }
               })
             }
+            console.log(this.radio)
+        },
+        sexM(){
+              this.radio = 1
+             this.col = !this.col;
+        },
+        sexW() {
+            this.radio = 2;
+            this.col = !this.col;
+        },
+        tiao() {
+            this.$router.push({name: 'car_dz'})
         }
       }
     }
 </script>
 
 <style scoped>
+  section{
+    width: 100%;
+  }
   .iconfont{
      font-family:"iconfont" !important;
      font-size:0.26rem;font-style:normal;
@@ -112,15 +123,6 @@
      float:left;
      color: white;
    }
-  .iconfont1{
-    font-family:"iconfont" !important;
-    font-size:0.26rem;font-style:normal;
-    -webkit-font-smoothing: antialiased;
-    -webkit-text-stroke-width: 0.2px;
-    -moz-osx-font-smoothing: grayscale;
-    float:right;
-    color: blue;
-  }
   .head{
     width: 100%;
     height: 0.5rem;
@@ -130,61 +132,32 @@
     text-align: center;
     color: white;
   }
-  .input1{
-      width: 75%;
-    margin-left: 0.14rem;
-    }
-  .input2{
-         width: 75%;
-       }
-  .input3{
-    margin-left: 0.59rem;
-    width: 75%;
+div>p {
+  display: inline-block;
+  font-size: 0.18rem;
+  margin: 0.15rem 0.15rem 0.15rem 0;
+}
+  div>input {
+    width: 64%;
+    height: 0.45rem;
   }
-  .input4{
-    margin-left: 0.6rem;
-    width: 75%;
-    margin-top: 0.2rem;
+  section>div+div {
+    border-bottom: 0.01rem solid lightgrey;
+    width: 94%;
+    margin: 0 auto;
   }
-  .input5{
-    margin-left: 0.26rem;
-    width: 75%;
-  }
-  .none{
-    margin-top: 0.2rem;
-  }
-  .sex{
-    width: 100%;
+  .tijiao {
+    display: block;
+    width: 94%;
     height: 0.4rem;
-    margin-top: 0.2rem;
-    text-align: center;
-    border-bottom: 0.005rem solid lightgray;
+    margin: 0.15rem auto;
+    background-color: #4CD964;
+    border-radius: 0.07rem;
   }
-  .phone{
-    margin-top: 0.2rem;
+  .color {
+      color: #4CD964;
   }
-  .SC{
-    margin-top: 0.2rem;
-  }
-  .foot{
-    margin-top: 0.2rem;
-  }
-  .btn{
-    margin-top: 0.2rem;
-    margin-left: 5%;
-    width: 90%;
-  }
-  .alert{
-    width: 60%;
-    height: 30%;
-  }
-  .alert > div{
-    width: 100%;
-    height: 100%;
-    text-align: center;
-  }
-  .alert > div > p{
-    width: 100%;
-    font-size: 0.25rem;
+  .kuang {
+    border-bottom: 0.01rem solid lightgrey;
   }
 </style>

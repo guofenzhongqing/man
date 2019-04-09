@@ -20,7 +20,8 @@ Vue.config.productionTip = false
 const store = new vuex.Store({
   state: {
     shopCar: [],
-    address: []
+    address: [],
+    nameOne: ''
   },
   getters: {},
   mutations: {
