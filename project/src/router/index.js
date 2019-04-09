@@ -59,12 +59,14 @@ import HistoricalRed from '../components/mine/RedPacket/HistoricalRed'
 import DH_Red from '../components/mine/RedPacket/DH_Red'
 import MyRecommend from '../components/mine/RedPacket/MyRecommend'
 import VoucherQ from '../components/mine/RedPacket/VoucherQ'
-import Commodity from '../components/Commodity'
 import Store from '../components/Store'
+import Commodity from '../components/Commodity'
 import Evaluation from '../components/Evaluation'
-import StoreDetails from '../components/StoreDetails'
-import ShopSafe from '../components/ShopSafe'
-import car from '../components/shopcar/car'
+import Car from '../components/shopCar/car'
+import car_address from '../components/shopCar/car_address'
+import car_DZ from '../components/shopCar/car_DZ'
+import car_FQ from '../components/shopCar/car_FQ'
+import car_TJ from '../components/shopCar/car_TJ'
 
 export default new Router({
   routes: [
@@ -80,6 +82,10 @@ export default new Router({
         {path: 'myOrder', component: MyOrder, name: 'myOrder'},
         {path: 'head', component: Head},
       ]},
+    {path: '/store', component: Store, name: 'store',redirect: '/store/commodity', children: [
+        {path: 'commodity', component: Commodity, name: 'commodity'},
+        {path: 'evaluation', component: Evaluation, name: 'evaluation'}
+      ]},
     {path: '/all/head/myInfo', component: MyInfo, name: 'myInfo'},
     {path: '/all/head/myInfo/username', component: Username, name: 'username'},
     {path: '/all/head/myInfo/compile', component: Compile, name: 'compile'},
@@ -90,11 +96,6 @@ export default new Router({
     {path: '/all/head/downLoad', component: DownLoad, name: 'downLoad'},
     {path: '/all/head/serve', component: Serve, name: 'serve'},
     {path: '/all/takeout/classify', component: Classify, name: 'classify'},
-    {path: '/store', component: Store, name: 'store', children: [
-        {path: '/', redirect: 'commodity'},
-        {path: 'commodity', component: Commodity, name: 'commodity'},
-        {path: 'evaluation', component: Evaluation, name: 'evaluation'}
-      ]},
     {path: '/all/head/serve/hot1', component: hot1, name: 'hot1'},
     {path: '/all/head/serve/hot2', component: hot2, name: 'hot2'},
     {path: '/all/head/serve/hot3', component: hot3, name: 'hot3'},
@@ -131,8 +132,10 @@ export default new Router({
     {path: '/all/head/MyDiscounts/MyRecommend', component: MyRecommend, name: 'MyRecommend'},
     {path: '/all/head/MyDiscounts/DH_Red', component: DH_Red, name: 'DH_Red'},
     {path: '/all/head/MyDiscounts/VoucherQ', component: VoucherQ, name: 'VoucherQ'},
-    {path: '/StoreDetails', component: StoreDetails, name: 'StoreDetails'},
-    {path: '/ShopSafe', component: ShopSafe, name: 'ShopSafe'},
-    {path: '/car', component: car, name: 'car'},
+    {path: '/car', component: Car, name: 'car'},
+    {path: '/car_address', component: car_address, name: 'car_address'},
+    {path: '/car_tj', component: car_TJ, name: 'car_tj'},
+    {path: '/car_fq', component: car_FQ, name: 'car_fq'},
+    {path: '/car_dz', component: car_DZ, name: 'car_dz'}
   ]
 })

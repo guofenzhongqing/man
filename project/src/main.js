@@ -18,7 +18,10 @@ Vue.config.productionTip = false
 
 
 const store = new vuex.Store({
-  state: {},
+  state: {
+    shopCar: [],
+    address: []
+  },
   getters: {},
   mutations: {
     // 存储城市的对象

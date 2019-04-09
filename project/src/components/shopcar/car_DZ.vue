@@ -5,8 +5,8 @@
       <span>选择</span>
     </div>
     <div class="SS">
-      <input type="text" placeholder="请输入小区/写字楼/学校等" v-model="DZ">
-      <button class="btn btn-default" @click="city">搜索</button>
+      <input type="text" placeholder="请输入小区/写字楼/学校等" v-model="DZ" class="form-control">
+      <button class="btn btn-primary" @click="city">搜索</button>
     </div>
      <div class="NR" v-for="item in Arr" @click="div1(item)">
        <p>{{item.name}}</p>
@@ -27,16 +27,20 @@
             name:''
           }
       },
-
       methods:{
           get(){
             window.history.go(-1)
           },
         city(){
-          Vue.axios.get('https://elm.cangdu.org/v1/pois?city_id='+this.$store.state.cityID+'&keyword='+this.DZ+'&type=search').then((res)=>{
-            console.log(res.data);
-            this.Arr=res.data;
-          })
+            if (this.DZ == ''){
+              alert('请输入搜索地址')
+            }else{
+              Vue.axios.get('https://elm.cangdu.org/v1/pois?city_id='+this.$store.state.cityID+'&keyword='+this.DZ+'&type=search').then((res)=>{
+                console.log(res.data);
+                this.Arr=res.data;
+              })
+            }
+
         },
         div1(i){
             window.history.go(-1);
@@ -66,13 +70,14 @@
     color: white;
   }
   .SS{
-    width: 100%;
+    width: 95%;
+    margin: 0.2rem auto;
     text-align: center;
-    margin-top: 0.2rem;
+    display: flex;
+    justify-content: space-between;
   }
   .SS input{
-    width: 70%;
-    background-color: lightgray;
+
   }
  .NR{
    margin-top: 0.2rem;
