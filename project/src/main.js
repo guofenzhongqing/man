@@ -9,6 +9,7 @@ import 'mint-ui/lib/style.css'
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 import '../node_modules/animate.css/animate.min.css'
+import $ from 'jquery'
 import vuex from 'vuex'
 Vue.use(vuex);
 Vue.use(MintUI);
@@ -24,10 +25,6 @@ const store = new vuex.Store({
     toCity(state, payload) {
      localStorage.setItem("city", JSON.stringify(payload));
     },
-    // 搜索商铺的历史
-    foodstuff(satte, payload) {
-      localStorage.setItem("food", JSON.stringify(payload));
-    },
     // 存储城市的id
     cityId(state, payload) {
       localStorage.setItem("id", payload);
@@ -36,13 +33,9 @@ const store = new vuex.Store({
     delivery(state, payload) {
        localStorage.setItem("location", JSON.stringify(payload));
     },
-    // 存储商品信息
+    // 存储店铺信息
     information(state, payload) {
       localStorage.setItem("storeObj" ,JSON.stringify(payload));
-    },
-    // 存储退出成功的信息
-    secede(state, payload) {
-      localStorage.setItem("exit", payload);
     }
   },
   actions: {},
