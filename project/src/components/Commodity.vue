@@ -45,7 +45,7 @@
 
                         <span v-if="item.mynum">{{item.mynum}}</span>
                       <button class="btn" v-if="item.specfoods.length > 1" @click="showAlert(item, it)">选规格</button>
-                      <span class="glyphicon glyphicon-plus-sign" aria-hidden="true" v-else @click="addGoods(item)"></span>
+                      <span class="glyphicon glyphicon-plus-sign" aria-hidden="true" v-else @click="addGoods(item,$event)"></span>
                       </span>
                     </p>
                   </div>
@@ -73,7 +73,7 @@
             <span>
               <span class="glyphicon glyphicon-minus-sign" aria-hidden="true" @click="removecar(item.shop)"></span>
               <span>{{item.num}}</span>
-              <span class="glyphicon glyphicon-plus-sign" aria-hidden="true" @click="addGoods(item.shop)"></span>
+              <span class="glyphicon glyphicon-plus-sign" aria-hidden="true" @click="addGoods(item.shop,$event)"></span>
             </span>
           </p>
         </div>
@@ -112,11 +112,20 @@
           </p>
           <p v-if="alertMsg.specfoods">
             <span>￥{{alertMsg.specfoods[0].price}}</span>
-            <mt-button type="primary" size="small" class="pull-right" @click="addGoods(alertMsg)">加入购物车</mt-button>
+            <mt-button type="primary" size="small" class="pull-right" @click="addGoods(alertMsg,$event)">加入购物车</mt-button>
           </p>
       </div>
     </mt-popup>
     <XBT v-if="animation"></XBT>
+    <div class="ball-container"><!--小球-->
+      <div v-for="ball in balls">
+        <transition name="drop" @before-enter="beforeDrop" @enter="dropping" @after-enter="afterDrop">
+          <div class="ball" v-show="ball.show">
+            <div class="inner inner-hook"></div>
+          </div>
+        </transition>
+      </div>
+    </div>
   </section>
 
 </template>
@@ -124,14 +133,14 @@
 <script>
 import Better from 'better-scroll'
 import Vue from 'vue'
-import XBT from "./shopcar/XBT";
+import XBT from "./XBT";
 import '../../node_modules/animate.css'
     export default {
         name: "Commodity",
       components: {XBT},
       data () {
         return {
-          actli: 0,
+          actli: -1,
           scrollY: 0,
           arr: [0],
           flag: true,
@@ -154,6 +163,24 @@ import '../../node_modules/animate.css'
           btnType1:'primary',
           btnType2:'default',
           isShowShopCar:false,
+          balls: [ //小球 设为3个
+            {
+              show: false
+            },
+            {
+              show: false
+            },
+            {
+              show: false
+            },
+            {
+              show: false
+            },
+            {
+              show: false
+            },
+          ],
+          dropBalls:[],
         }
       },
       created(){
@@ -213,7 +240,7 @@ import '../../node_modules/animate.css'
           this.obj = it;
         },
         //添加到购物车
-        addGoods(e){
+        addGoods(e, p){
           this.popupVisible = false;
           if (localStorage.getItem("mycar") != null){
             let carArr = JSON.parse(localStorage.getItem("mycar"));
@@ -237,6 +264,7 @@ import '../../node_modules/animate.css'
             this.mycar = carArr1;
             localStorage.setItem("mycar",JSON.stringify(carArr1));
           }
+          this.drop(p.target);
         },
         // 删除商品
         removecar(e){
@@ -258,6 +286,50 @@ import '../../node_modules/animate.css'
         goToPay(d){
           this.$store.state.shopCar = d;
           this.$router.push({name:'car'});
+        },
+        drop(el){ //抛物
+          for(let i=0;i<this.balls.length;i++){
+            let ball= this.balls[i];
+            if(!ball.show){
+              ball.show = true;
+              ball.el=el;
+              this.dropBalls.push(ball);
+              return;
+            }
+          }
+        },
+        beforeDrop(el) {/* 购物车小球动画实现 */
+          let count = this.balls.length;
+          while (count--) {
+            let ball = this.balls[count];
+            if (ball.show) {
+              let rect = ball.el.getBoundingClientRect(); //元素相对于视口的位置
+              let x = rect.left - 32;
+              let y = -(window.innerHeight - rect.top - 22);  //获取y
+              el.style.display = '';
+              el.style.webkitTransform = 'translateY('+y+'px)';  //translateY
+              el.style.transform = 'translateY('+y+'px)';
+              let inner = el.getElementsByClassName('inner-hook')[0];
+              inner.style.webkitTransform = 'translateX('+x+'px)';
+              inner.style.transform = 'translateX('+x+'px)';
+            }
+          }
+        },
+        dropping(el, done) { /*重置小球数量  样式重置*/
+          let rf = el.offsetHeight;
+          el.style.webkitTransform = 'translate3d(0,0,0)';
+          el.style.transform = 'translate3d(0,0,0)';
+          let inner = el.getElementsByClassName('inner-hook')[0];
+          inner.style.webkitTransform = 'translate3d(0,0,0)';
+          inner.style.transform = 'translate3d(0,0,0)';
+          el.addEventListener('transitionend', done);
+        },
+        afterDrop(el) { /*初始化小球*/
+          let ball = this.dropBalls.shift();
+          if (ball) {
+            ball.show=false;
+            el.style.display = 'none';
+          }
         }
       },
       mounted () {
@@ -355,11 +427,37 @@ import '../../node_modules/animate.css'
 </script>
 
 <style scoped>
+  .ball{
+    position: fixed;
+    left: 0.32rem;
+    bottom: 0.22rem;
+    z-index: 200;
+    transition: all 0.4s cubic-bezier(0.49, -0.29, 0.75, 0.41); /*贝塞尔曲线*/
+  }
+  .inner{
+    width: 0.2rem;
+    height: 0.2rem;
+    border-radius: 50%;
+    background-color: rgb(0,160,220);
+    transition: all 0.4s linear;
+  }
+  .cart{
+    position: fixed;
+    bottom: 0.22rem;
+    left: 0.32rem;
+    width: 0.3rem;
+    height: 0.3rem;
+    background-color: rgb(0,160,220);
+    color: rgb(255,255,255);
+  }
   .less-enter-active, .less--leave-active{
     transition: opacity 0.5s;
   }
   .less-enter, .less-leave-to{
     opacity: 0;
+  }
+  section{
+    background-color: #E5E4E4;
   }
   .footHidden{
     width: 100%;
@@ -417,6 +515,7 @@ p, ul{
 .aside li{
   width: 100%;
   list-style: none;
+  position: relative;
 }
 .aside li p{
   width: 100%;
@@ -613,8 +712,8 @@ p, ul{
 }
 .rednum2{
   position: absolute;
-  top:0px;
-  right:0px;
+  top:0;
+  right:0;
   border-radius:50%;
   background-color:red;
   color:white;
