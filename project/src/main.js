@@ -25,6 +25,10 @@ const store = new vuex.Store({
     toCity(state, payload) {
      localStorage.setItem("city", JSON.stringify(payload));
     },
+    // 搜索商铺的历史
+    foodstuff(satte, payload) {
+      localStorage.setItem("food", JSON.stringify(payload));
+    },
     // 存储城市的id
     cityId(state, payload) {
       localStorage.setItem("id", payload);
@@ -33,7 +37,7 @@ const store = new vuex.Store({
     delivery(state, payload) {
        localStorage.setItem("location", JSON.stringify(payload));
     },
-    // 存储店铺信息
+    // 存储商铺信息
     information(state, payload) {
       localStorage.setItem("storeObj" ,JSON.stringify(payload));
     }
