@@ -70,7 +70,7 @@ import car_TJ from '../components/shopCar/car_TJ'
 import StoreDetails from '../components/StoreDetails'
 import ShopSafe from '../components/ShopSafe'
 import car_Order from '../components/shopCar/car_Order'
-
+import goodDetails from '../components/goodDetails'
 
 export default new Router({
   routes: [
@@ -145,5 +145,6 @@ export default new Router({
     {path: '/ShopSafe', component: ShopSafe, name: 'ShopSafe'},
     {path: '/car_Order', component: car_Order, name: 'car_Order'},
     {path: '/car_FQ', component: car_FQ, name: 'car_FQ'},
+    {path: '/goodDetails', component: goodDetails, name: 'goodDetails'},
   ]
 })

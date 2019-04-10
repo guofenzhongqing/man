@@ -22,7 +22,8 @@ const store = new vuex.Store({
     shopCar: [],
     address: [],
     nameOne: '',
-    RemarksArr: []
+    RemarksArr: [],
+    goodDetails: {}
   },
   getters: {},
   mutations: {

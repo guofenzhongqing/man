@@ -14,14 +14,18 @@
 
       <div class="r_list" ref="r_list">
         <div>
-          <div v-for="(it,index) in getshopnum" :key="index" ref="good" v-if="it.foods.length !== 0">
+          <div v-for="(it,index) in getshopnum" :key="index" ref="good" v-if="it.foods.length !== 0" style="position: relative">
             <p class="title">
               <span>{{it.name}} </span>
               <span>{{it.description}}</span>
-              <span class="glyphicon glyphicon-option-horizontal" aria-hidden="true"></span>
+              <span class="glyphicon glyphicon-option-horizontal" aria-hidden="true" @click="hid(index)"></span>
+            </p>
+            <p style="width: 0.13rem;height: 0.13rem;background-color: #434144;position: absolute;right:0.15rem;top: 0.2rem;transform: rotate(45deg)" v-if="isshow == index"></p>
+            <p style="background-color: #434144;color: white;text-align: center;width: 1.9rem;position: absolute;right: 0.06rem;top: 0.26rem;border-radius: 0.05rem" v-if="isshow == index">
+              <span style="font-size: 0.18rem;display: inline-block;margin-right: 0.08rem">{{it.name}}</span><span>{{it.description}}</span>
             </p>
             <ul>
-              <li  v-for="(item,index) in it.foods" :key="index" class="list " >
+              <li  v-for="(item,index) in it.foods" :key="index" class="list " @click="goodDetails(item)">
                 <div class="list_item" @click.self="getDetails(item)">
                   <div v-if="item.attributes.length !== 0" class="list_item-div1">
                     <!--重点要分享, 写入ppt-->
@@ -162,6 +166,7 @@ import '../../node_modules/animate.css'
           animation:true,
           btnType1:'primary',
           btnType2:'default',
+          isshow: -1,
           isShowShopCar:false,
           balls: [ //小球 设为3个
             {
@@ -330,6 +335,13 @@ import '../../node_modules/animate.css'
             ball.show=false;
             el.style.display = 'none';
           }
+        },
+        hid(index) {
+          this.isshow = index;
+        },
+        goodDetails(i) {
+          this.$router.push({name: 'goodDetails'})
+          this.$store.state.goodDetails = i;
         }
       },
       mounted () {
