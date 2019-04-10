@@ -1,7 +1,7 @@
 <template>
   <section>
     <div class="head">
-      <i class="iconfont" @click="get">&#xe64b;</i>
+      <i class="iconfont" @click="get">&#xe6bc;</i>
       <span>选择地址</span>
     </div>
     <div class="address">
@@ -13,14 +13,14 @@
             <span>{{item.phone}}</span>
           </p>
           <p class="tag">
-            <span :class="{colorblue: item.tag=='学校', colorRed:item.tag == '家', colorGreen: item.tag== '公司'}">{{item.tag}}</span>
+            <span :class="{colorBlue:true}">{{item.tag}}</span>
             <span>{{item.address_detail}}</span>
           </p>
         </li>
       </ul>
     </div>
     <router-link class="foot" :to="{name:'car_tj'}">
-      <i class="iconfont1">&#xe61c;</i>
+      <i class="iconfont1">&#xe645;</i>
       <span>新增收货地址</span>
     </router-link>
   </section>
@@ -39,9 +39,10 @@
           }
       },
       created(){
-        this.userId = JSON.parse(localStorage.getItem('personObj')).id
+        this.userId = JSON.parse(localStorage.getItem('success')).id
         // 发起请求获取收货地址列表
         Vue.axios.get('https://elm.cangdu.org/v1/users/'+ this.userId + '/addresses').then(res => {
+          console.log(res.data)
           this.addressArr = res.data;
           // console.log(this.addressArr)
         })
@@ -75,12 +76,12 @@
     -webkit-font-smoothing: antialiased;
     -webkit-text-stroke-width: 0.2px;
     -moz-osx-font-smoothing: grayscale;
-    color: blue;
+    color: lightcoral;
   }
   .head{
     width: 100%;
     height: 0.5rem;
-    background-color: blue;
+    background-color: #008de1;
     line-height:0.5rem ;
     font-size: 0.2rem;
     text-align: center;
@@ -95,7 +96,7 @@
     line-height: 0.45rem;
   }
   .foot span{
-    color: blue;
+    color: #008de1;
     font-size: 0.18rem;
   }
   .address{
@@ -124,7 +125,7 @@
   .tag span:nth-child(2){
     color: gray;
   }
-  .colorblue{
+  .colorBlue{
     background-color: #3190E8;
   }
   .colorRed{

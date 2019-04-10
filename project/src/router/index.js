@@ -67,6 +67,10 @@ import car_address from '../components/shopCar/car_address'
 import car_DZ from '../components/shopCar/car_DZ'
 import car_FQ from '../components/shopCar/car_FQ'
 import car_TJ from '../components/shopCar/car_TJ'
+import StoreDetails from '../components/StoreDetails'
+import ShopSafe from '../components/ShopSafe'
+import car_Order from '../components/shopCar/car_Order'
+
 
 export default new Router({
   routes: [
@@ -136,6 +140,10 @@ export default new Router({
     {path: '/car_address', component: car_address, name: 'car_address'},
     {path: '/car_tj', component: car_TJ, name: 'car_tj'},
     {path: '/car_fq', component: car_FQ, name: 'car_fq'},
-    {path: '/car_dz', component: car_DZ, name: 'car_dz'}
+    {path: '/car_dz', component: car_DZ, name: 'car_dz'},
+    {path: '/StoreDetails', component: StoreDetails, name: 'StoreDetails'},
+    {path: '/ShopSafe', component: ShopSafe, name: 'ShopSafe'},
+    {path: '/car_Order', component: car_Order, name: 'car_Order'},
+    {path: '/car_FQ', component: car_FQ, name: 'car_FQ'},
   ]
 })

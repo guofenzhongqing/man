@@ -60,7 +60,7 @@
 
 <script>
 import Vue from 'vue'
-import XBT from "./shopcar/XBT";
+import XBT from "./XBT";
 import GoTop from "./goTop";
     export default {
         name: "TakeOut",

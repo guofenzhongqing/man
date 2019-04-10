@@ -1,14 +1,14 @@
 <template>
     <section>
       <div class="head">
-        <i class="iconfont" @click="get">&#xe64b;</i>
+        <i class="pin" @click="get">&#xe6bc;</i>
         <span>选择发票抬头</span>
       </div>
       <div class="content">
         <span>不需要开发票</span>
-        <el-checkbox v-model="checked" class="EL"></el-checkbox>
+        <i class="jiantouR" :class="{colors : checked}" @click="checked = !checked">&#xe65c;</i>
       </div>
-      <button class="btn btn-success">确定</button>
+      <button class="btn btn-success" @click="get">确定</button>
     </section>
 </template>
 
@@ -17,7 +17,7 @@
         name: "car_FQ",
       data(){
           return {
-            checked: true
+            checked: false
           }
       },
       methods:{
@@ -29,7 +29,7 @@
 </script>
 
 <style scoped>
-  .iconfont{
+  .pin{
     font-family:"iconfont" !important;
     font-size:0.26rem;font-style:normal;
     -webkit-font-smoothing: antialiased;
@@ -41,13 +41,13 @@
   .head{
     width: 100%;
     height: 0.5rem;
-    background-color: blue;
+    background-color: #008de1;
     line-height:0.5rem ;
     font-size: 0.2rem;
     text-align: center;
     color: white;
   }
-  .EL{
+  .jiantouR{
     margin-right: 0.1rem;
     float: right;
   }
@@ -62,5 +62,8 @@
     width: 80%;
     margin-left: 10%;
     margin-top: 0.1rem;
+  }
+  .colors{
+    color: lime;
   }
 </style>

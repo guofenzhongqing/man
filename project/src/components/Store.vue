@@ -63,7 +63,7 @@
 
 <script>
   import Vue from 'vue'
-  import XBT from "./shopcar/XBT";
+  import XBT from "./XBT";
     export default {
         name: "Store",
       components: {XBT},
@@ -113,7 +113,7 @@
         },
         header(){
           this.$router.push({name: 'StoreDetails'})
-        }
+        },
       }
     }
 </script>

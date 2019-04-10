@@ -44,7 +44,7 @@
             foodAddress: this.$store.state.nameOne,// 地址
             address:'',// 详细地址
             tag:'',// 标签
-            radio:0,// 性别
+            radio:1,// 性别
             sure:false,
             text:'',
             color: '#767676',
@@ -89,11 +89,18 @@
                 }
               }).then(res => {
                 if (res.data.success){
-                  history.go(-1)
+                 this.$router.push({name: 'car_address'})
                 }
               })
             }
-            console.log(this.radio)
+            // this.$router.push({name:'car_address'})
+          this.name ='';
+          this.radio = '';
+          this.phoneNum = '';
+          this.phoneNum1 = '';
+          this.address = '';
+          this.tag = '';
+          localStorage.removeItem('hsy');
         },
         sexM(){
               this.radio = 1
@@ -105,7 +112,21 @@
         },
         tiao() {
             this.$router.push({name: 'car_dz'})
+            let obj = {name: this.name,phoneNum: this.phoneNum,phoneNum1: this.phoneNum1,radio: this.radio,address: this.address,tag: this.tag}
+            localStorage.setItem('hsy', JSON.stringify(obj));
         }
+      },
+      mounted() {
+          if (JSON.parse(localStorage.getItem('hsy')) != null) {
+            let obj1 = JSON.parse(localStorage.getItem('hsy'));
+            this.name = obj1.name;
+            this.radio = obj1.radio;
+            this.phoneNum = obj1.phoneNum;
+            this.phoneNum1 = obj1.phoneNum1;
+            this.address = obj1.address;
+            this.tag = obj1.tag;
+          }
+
       }
     }
 </script>

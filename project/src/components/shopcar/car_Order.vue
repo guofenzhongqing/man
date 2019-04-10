@@ -1,12 +1,12 @@
 <template>
     <section>
       <div class="head">
-        <i class="iconfont" @click="get">&#xe64b;</i>
+        <i class="pin" @click="get">&#xe6bc;</i>
         <span>订单备注</span>
       </div>
 
-      <div class="content">
-        <p>快速备注</p>
+      <div class="content" style="margin-left: 0.2rem">
+        <p style="font-size: 0.18rem">快速备注</p>
         <el-radio-group v-model="radio3"  size="small">
           <el-radio-button label="不要辣"></el-radio-button>
           <el-radio-button label="少点辣"></el-radio-button>
@@ -34,9 +34,9 @@
          </div>
       </div>
 
-      <div class="foot">
-        <p>其他备注</p>
-        <textarea v-model="tX">请输入备注内容(可不填)</textarea>
+      <div class="foot" style="margin-left: 0.2rem">
+        <p style="font-size: 0.18rem">其他备注</p>
+        <textarea v-model="tX" placeholder="请输入备注内容(可不填)"></textarea>
       </div>
       <button class="btn btn-success" @click="getXX">确定</button>
     </section>
@@ -66,7 +66,6 @@
             return item
           });
           this.$store.state.RemarksArr=this.Arr
-          console.log(this.Arr)
           window.history.go(-1)
         }
       }
@@ -74,7 +73,7 @@
 </script>
 
 <style scoped>
-  .iconfont{
+  .pin{
     font-family:"iconfont" !important;
     font-size:0.26rem;font-style:normal;
     -webkit-font-smoothing: antialiased;
@@ -86,7 +85,7 @@
   .head{
     width: 100%;
     height: 0.5rem;
-    background-color: blue;
+    background-color: #008de1;
     line-height:0.5rem ;
     font-size: 0.2rem;
     text-align: center;
@@ -113,8 +112,10 @@
   textarea{
     width: 80%;
     height: 1.1rem;
-    margin-left: 10%;
-    background-color: lightgray;
+    border-radius: 0.04rem;
+    background-color: whitesmoke;
+    padding: 0.1rem 0 0 0.1rem;
+    font-size: 0.18rem;
   }
   button{
     width: 90%;

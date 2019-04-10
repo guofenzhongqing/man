@@ -232,7 +232,7 @@ import '../../node_modules/animate.css'
           this.rgt.scrollToElement(this.$refs.good[index], 500, 0, 0);
           setTimeout(() => {
             this.flag = true
-          }, 100)
+          }, 1000)
         },
         //跳转到商品详细页面
         getDetails (it) {

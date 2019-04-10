@@ -20,7 +20,7 @@
           </div>
         </div>
       </div>
-      <div class="supervise">
+      <div class="supervise" style="border-top: 0.1rem solid gray">
         <p>食品监督安全公示</p>
         <div @click="goToShopSafe">
           <span>企业认证详情</span>
