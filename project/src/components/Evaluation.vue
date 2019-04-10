@@ -9,7 +9,7 @@
         <div class="col-xs-8">
           <span class="s1">服务态度</span>
           <el-rate
-            v-model="productSan"
+            v-model="productSan == '' ? 0 : productSan"
             disabled
             show-score
             text-color="#ff9900"
@@ -17,7 +17,7 @@
           </el-rate>
           <p>菜品评价</p>
           <el-rate
-            v-model="productSi"
+            v-model="productSi == '' ? 0 : productSi"
             disabled
             show-score
             text-color="#ff9900"
