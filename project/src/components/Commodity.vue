@@ -25,17 +25,17 @@
               <span style="font-size: 0.18rem;display: inline-block;margin-right: 0.08rem">{{it.name}}</span><span>{{it.description}}</span>
             </p>
             <ul>
-              <li  v-for="(item,index) in it.foods" :key="index" class="list " @click="goodDetails(item)">
+              <li  v-for="(item,index) in it.foods" :key="index" class="list">
                 <div class="list_item" @click.self="getDetails(item)">
                   <div v-if="item.attributes.length !== 0" class="list_item-div1">
                     <!--重点要分享, 写入ppt-->
                     <span v-for="i in item.attributes" :class="{newFood: i.icon_name == '新', shopSign: i.icon_name == '招牌'}">{{i.icon_name == '新' ? '新品':'招牌'}}</span>
                   </div>
-                  <img :src="http + item.image_path">
+                  <img :src="http + item.image_path" @click="goodDetails(item)">
                   <div class="list_item-div">
-                    <p class="name">{{item.name}}</p>
-                    <p class="des">{{item.description}}</p>
-                    <p class="sale">
+                    <p class="name" @click="goodDetails(item)">{{item.name}}</p>
+                    <p class="des" @click="goodDetails(item)">{{item.description}}</p>
+                    <p class="sale" @click="goodDetails(item)">
                       <span>月售{{item.month_sales}}</span>
                       <span>好评率{{item.satisfy_rate}}%</span>
                     </p>
@@ -167,6 +167,7 @@ import '../../node_modules/animate.css'
           btnType1:'primary',
           btnType2:'default',
           isshow: -1,
+          isshow1: false,
           isShowShopCar:false,
           balls: [ //小球 设为3个
             {
@@ -338,6 +339,7 @@ import '../../node_modules/animate.css'
         },
         hid(index) {
           this.isshow = index;
+          this.isshow1 = !isshow1;
         },
         goodDetails(i) {
           this.$router.push({name: 'goodDetails'})
